@@ -1,4 +1,3 @@
-
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -13,7 +12,6 @@ import MaskedInputDui from '../components/Inputs/MaskedInputDui';
 import InputEmail from '../components/Inputs/InputEmail';
 import TopBar from '../components/topBar/topBar';
 
-
 export default function SignUp({ navigation }) {
     const ip = Constantes.IP;
 
@@ -27,31 +25,22 @@ export default function SignUp({ navigation }) {
     const [direccion, setDireccion] = useState('')
     const [dui, setDui] = useState('')
     const [telefono, setTelefono] = useState('')
-    //const [fechaNacimiento, setFechaNacimiento] = useState('')
     const [clave, setClave] = useState('')
     const [confirmarClave, setConfirmarClave] = useState('')
 
-     // Expresiones regulares para validar DUI y teléfono
-     const duiRegex = /^\d{8}-\d$/;
-     const telefonoRegex = /^\d{4}-\d{4}$/;
-
-    /*
-    Codigo para mostrar el datetimepicker
-    */
+    const duiRegex = /^\d{8}-\d$/;
+    const telefonoRegex = /^\d{4}-\d{4}$/;
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate;
         setShow(false);
         setDate(currentDate);
-        /*
-        Codigo para convertir la fecha al formato año-mes-dia */
 
         const year = currentDate.getFullYear();
         const month = String(currentDate.getMonth() + 1).padStart(2, '0');
         const day = String(currentDate.getDate()).padStart(2, '0');
 
         const fechaNueva = `${year}-${month}-${day}`;
-        //setFechaNacimiento(fechaNueva)
     };
 
     const showMode = (currentMode) => {
@@ -63,51 +52,21 @@ export default function SignUp({ navigation }) {
         showMode('date');
     };
 
-    /*
-        Fin Codigo para mostrar el datetimepicker
-        */
-
     const handleLogout = async () => {
-        /*
-                try {
-                    const response = await fetch(`${ip}/coffeeshop/api/services/public/cliente.php?action=logOut`, {
-                        method: 'GET'
-                    });
-        
-                    const data = await response.json();
-        
-                    if (data.status) {
-                        navigation.navigate('Sesion');
-                    } else {
-                        console.log(data);
-                        // Alert the user about the error
-                        Alert.alert('Error', data.error);
-                    }
-                } catch (error) {
-                    console.error(error, "Error desde Catch");
-                    Alert.alert('Error', 'Ocurrió un error al iniciar sesión con bryancito');
-                } */
         navigation.navigate('Sesion');
     };
 
-    //props que recibe input
-    //placeHolder, setValor, contra, setTextChange
-
     const handleCreate = async () => {
         try {
+            const fechaMinima = new Date();
+            fechaMinima.setFullYear(fechaMinima.getFullYear() - 18);
 
-    // Calcular la fecha mínima permitida (18 años atrás desde la fecha actual)
-      const fechaMinima = new Date();
-      fechaMinima.setFullYear(fechaMinima.getFullYear() - 18);
-            // Validar los campos
             if (!nombre.trim() || !apellido.trim() || !email.trim() || !direccion.trim() ||
                 !dui.trim() || !telefono.trim() || !clave.trim() || !confirmarClave.trim()) {
                 Alert.alert("Debes llenar todos los campos");
                 return;
-            
-      }
+            }
 
-            // Si todos los campos son válidos, proceder con la creación del usuario
             const formData = new FormData();
             formData.append('nombreCliente', nombre);
             formData.append('apellidoCliente', apellido);
@@ -135,8 +94,7 @@ export default function SignUp({ navigation }) {
         }
     };
 
-
-return (
+    return (
         <View style={styles.container}>
             <TopBar />
             <ScrollView contentContainerStyle={styles.scrollViewStyle}>
@@ -163,8 +121,6 @@ return (
                 <MaskedInputDui
                     dui={dui}
                     setDui={setDui} />
-                
-
                 <MaskedInputTelefono
                     telefono={telefono}
                     setTelefono={setTelefono} />
@@ -188,11 +144,8 @@ return (
                     textoBoton='Ir al Login'
                     accionBoton={handleLogout}
                 />
-
-
             </ScrollView>
         </View>
-
     );
 }
 
@@ -202,7 +155,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         alignItems: 'center',
         justifyContent: 'center',
-      },
+    },
     scrollViewStyle: {
         alignItems: 'center',
         justifyContent: 'center'

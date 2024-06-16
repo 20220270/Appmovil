@@ -1,4 +1,3 @@
-
 import { StatusBar, StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, FlatList, ScrollView, SafeAreaView, Image, Modal } from 'react-native';
 import { useState, useEffect } from 'react';
 import * as Constantes from '../utils/constantes'
@@ -20,33 +19,8 @@ export default function Productos({ navigation }) {
   const [idProductoModal, setIdProductoModal] = useState('')
   const [nombreProductoModal, setNombreProductoModal] = useState('')
 
-  /*
-  Ahorita no se ocupa este codigo
-  const volverLogin = async () => {
-    try {
-      const response = await fetch(`${ip}/coffeeshop/api/services/public/cliente.php?action=logOut`, {
-        method: 'GET'
-      });
-
-      const data = await response.json();
-
-      if (data.status) {
-        Alert.alert("Sesion Finalizada")
-      } else {
-        console.log(data);
-        // Alert the user about the error
-        Alert.alert('Error', data.error);
-      }
-    } catch (error) {
-      console.error(error, "Error desde Catch");
-      Alert.alert('Error', 'Ocurrió un error al iniciar sesión con bryancito');
-    }
-  }*/
-
   const volverInicio = async () => {
-
-    navigation.navigate('Home');
-
+    navigation.toggleDrawer(); // Modificado para abrir/cerrar el drawer
   };
 
   const handleCompra = (nombre, id) => {
@@ -55,7 +29,7 @@ export default function Productos({ navigation }) {
     setNombreProductoModal(nombre)
   }
 
-  //getCategorias Funcion para consultar por medio de una peticion GET los datos de la tabla categoria que se encuentran en la base de datos
+  // getCategorias Funcion para consultar por medio de una peticion GET los datos de la tabla categoria que se encuentran en la base de datos
   const getProductos = async (idCategoriaSelect = 1) => {
     try {
       if (idCategoriaSelect <= 0) //validar que vaya seleccionada una categoria de productos
@@ -111,8 +85,8 @@ export default function Productos({ navigation }) {
     setSelectedCategoria(itemValue);
   };
 
-  //Uso del React Hook UseEffect para que cada vez que se cargue la vista por primera vez
-  //se ejecute la funcion getCategorias
+  // Uso del React Hook UseEffect para que cada vez que se cargue la vista por primera vez
+  // se ejecute la funcion getCategorias
   useEffect(() => {
     getProductos();
     getCategorias();
@@ -272,36 +246,38 @@ const styles = StyleSheet.create({
   },
   cartButton: {
     flexDirection: 'row',
-    alignItems: 'center',
     backgroundColor: '#AF8260',
-    borderRadius: 5,
+    borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    marginVertical: 10,
+    marginTop: 20,
+    alignItems: 'center',
   },
   cartButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center',
     marginLeft: 10,
   },
   subtitle: {
     fontSize: 18,
     fontWeight: '600',
-    marginVertical: 5,
-    marginHorizontal: 5,
-    color: '#5C3D2E', // Brown color for the title
+    textAlign: 'center',
+    marginBottom: 10,
+    color: '#5C3D2E',
   },
   pickerContainer: {
-    borderWidth: 1,
-    borderColor: '#AF8260', // Color del borde
-    borderRadius: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     paddingVertical: 5,
+    borderRadius: 5,
     marginBottom: 10,
-    backgroundColor: '#AF8260', // Color de fondo
+    borderColor: '#AF8260',
+    borderWidth: 2,
+    backgroundColor: '#F5F5F5',
   },
   picker: {
-    color: '#ffffff'
+    color: '#322C2B',
   },
 });
+
+   

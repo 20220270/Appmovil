@@ -55,30 +55,31 @@ export default function Sesion({ navigation }) {
 
   const handlerLogin = async () => {
     try {
-      const formData = new FormData();
-      formData.append('correoCliente', usuario);
-      formData.append('claveCliente', contrasenia);
+        const formData = new FormData();
+        formData.append('correoCliente', usuario);
+        formData.append('claveCliente', contrasenia);
 
-      const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/cliente.php?action=logIn`, {
-        method: 'POST',
-        body: formData
-      });
+        const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/cliente.php?action=logIn`, {
+            method: 'POST',
+            body: formData
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      if (data.status) {
-        setContrasenia('')
-        setUsuario('')
-        navigation.navigate('TabNavigator');
-      } else {
-        console.log(data);
-        Alert.alert('Error sesión', data.error);
-      }
+        if (data.status) {
+            setContrasenia('');
+            setUsuario('');
+            navigation.navigate('Home'); // Navega a la pantalla Home dentro del DrawerNavigator
+        } else {
+            console.log(data);
+            Alert.alert('Error sesión', data.error);
+        }
     } catch (error) {
-      console.error(error, "Error desde Catch");
-      Alert.alert('Error', 'Ocurrió un error al iniciar sesión');
+        console.error(error, "Error desde Catch");
+        Alert.alert('Error', 'Ocurrió un error al iniciar sesión');
     }
-  };
+};
+
 
   const irRegistrar = async () => {
     navigation.navigate('SignUp');

@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 8,
     paddingHorizontal: 16,
-    backgroundColor: '#8F6B58', // Light brown color for modify button
+    backgroundColor: '#6D0E0E', // Light brown color for modify button
     marginVertical: 4,
   },
   deleteButton: {
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 8,
     paddingHorizontal: 16,
-    backgroundColor: '#D2691E', // Darker orange color for delete button
+    backgroundColor: '#6D0E0E', // Darker orange color for delete button
     marginVertical: 4,
   },
   buttonText: {

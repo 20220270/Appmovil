@@ -16,7 +16,7 @@ export default function ProductoCard({ ip, imagenProducto, idProducto, nombrePro
     <View style={styles.card}>
       <View style={styles.imageContainer}>
         <Image
-          source={{ uri: `${ip}/coffeeshop/api/images/productos/${imagenProducto}` }}
+          source={{ uri: `${ip}/OinosDeLaVid/api/images/productos/${imagenProducto}` }}
           style={styles.image}
           resizeMode="contain" // Ajustar la imagen al contenedor
         />
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   image: {
-    width: '65%',
+    width: '85%',
     height: 150,
     borderRadius: 8,
     marginBottom: 12,
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#AF8260',
+    backgroundColor: '#6D0E0E',
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,

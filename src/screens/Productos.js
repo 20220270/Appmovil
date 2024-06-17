@@ -1,283 +1,343 @@
-import { StatusBar, StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, FlatList, ScrollView, SafeAreaView, Image, Modal } from 'react-native';
-import { useState, useEffect } from 'react';
-import * as Constantes from '../utils/constantes'
-import Buttons from '../components/Buttons/Button';
+import React, { useState, useEffect } from 'react';
+import { StatusBar, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList, Image } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+import TopBar from '../components/topBar/topBar';
 import ProductoCard from '../components/Productos/ProductoCard';
 import ModalCompra from '../components/Modales/ModalCompra';
+import * as Constantes from '../utils/constantes';
+import CustomDrawer from '../../src/tabNavigator/CustomDrawer';
+import Buttons from '../components/Buttons/Button';
 import RNPickerSelect from 'react-native-picker-select';
 import Constants from 'expo-constants';
-import { FontAwesome } from '@expo/vector-icons'; // Importamos el ícono
 
 export default function Productos({ navigation }) {
+    const ip = Constantes.IP;
+    const [dataProductos, setDataProductos] = useState([]);
+    const [dataCategorias, setDataCategorias] = useState([]);
+    const [selectedValue, setSelectedValue] = useState(null);
+    const [cantidad, setCantidad] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
+    const [drawerVisible, setDrawerVisible] = useState(false);
+    const [idProductoModal, setIdProductoModal] = useState('');
+    const [nombreProductoModal, setNombreProductoModal] = useState('');
+    const [currentIndex, setCurrentIndex] = useState(0); // Índice de la imagen actual
 
-  const ip = Constantes.IP;
-  const [dataProductos, setDataProductos] = useState([])
-  const [dataCategorias, setDataCategorias] = useState([])
-  const [selectedValue, setSelectedValue] = useState(null);
-  const [cantidad, setCantidad] = useState('');
-  const [modalVisible, setModalVisible] = useState(false)
-  const [idProductoModal, setIdProductoModal] = useState('')
-  const [nombreProductoModal, setNombreProductoModal] = useState('')
+    const volverInicio = () => {
+        setDrawerVisible(true);
+    };
+    const handleCompra = (nombre, id) => {
+        setModalVisible(true);
+        setIdProductoModal(id);
+        setNombreProductoModal(nombre);
+    };
 
-  const volverInicio = async () => {
-    navigation.toggleDrawer(); // Modificado para abrir/cerrar el drawer
-  };
+    const getProductos = async (idCategoriaSelect = 1) => {
+        try {
+            if (idCategoriaSelect <= 0) {
+                return;
+            }
+            const formData = new FormData();
+            formData.append('idCategoria', idCategoriaSelect);
+            const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/productos.php?action=readProductosCategoria`, {
+                method: 'POST',
+                body: formData
+            });
 
-  const handleCompra = (nombre, id) => {
-    setModalVisible(true)
-    setIdProductoModal(id)
-    setNombreProductoModal(nombre)
-  }
+            const data = await response.json();
+            if (data.status) {
+                setDataProductos(data.dataset);
+            } else {
+                Alert.alert('Error productos', data.error);
+            }
+        } catch (error) {
+            console.error(error, "Error desde Catch");
+            Alert.alert('Error', 'Ocurrió un error al listar los productos');
+        }
+    };
 
-  // getCategorias Funcion para consultar por medio de una peticion GET los datos de la tabla categoria que se encuentran en la base de datos
-  const getProductos = async (idCategoriaSelect = 1) => {
-    try {
-      if (idCategoriaSelect <= 0) //validar que vaya seleccionada una categoria de productos
-      {
-        return
-      }
-      const formData = new FormData();
-      formData.append('idCategoria', idCategoriaSelect);
-      //utilizar la direccion IP del servidor y no localhost
-      const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/productos.php?action=readProductosCategoria`, {
-        method: 'POST',
-        body: formData
-      });
+    const getCategorias = async () => {
+        try {
+            const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/categorias.php?action=readAll`, {
+                method: 'GET',
+            });
 
-      const data = await response.json();
-      console.log("data al obtener productos  \n", data)
-      if (data.status) {
-        console.log("trae datos el dataset", data)
-        setDataProductos(data.dataset)
-      } else {
-        console.log("Data en el ELSE error productos", data);
-        // Alert the user about the error
-        Alert.alert('Error productos', data.error);
-      }
-    } catch (error) {
-      console.error(error, "Error desde Catch");
-      Alert.alert('Error', 'Ocurrió un error al listar los productos');
-    }
-  }
+            const data = await response.json();
+            if (data.status) {
+                setDataCategorias(data.dataset);
+            } else {
+                Alert.alert('Error categorias', data.error);
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Ocurrió un error al listar las categorias');
+        }
+    };
 
-  const getCategorias = async () => {
-    try {
+    const handleCategoriaChange = (itemValue, itemIndex) => {
+        setSelectedCategoria(itemValue);
+    };
 
-      //utilizar la direccion IP del servidor y no localhost
-      const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/categorias.php?action=readAll`, {
-        method: 'GET',
-      });
+    useEffect(() => {
+        getProductos();
+        getCategorias();
+    }, []);
 
-      const data = await response.json();
-      if (data.status) {
-        setDataCategorias(data.dataset)
-      } else {
-        console.log(data);
-        // Alert the user about the error
-        Alert.alert('Error categorias', data.error);
-      }
-    } catch (error) {
-      Alert.alert('Error', 'Ocurrió un error al listar las categorias');
-    }
-  }
+    const irCarrito = () => {
+        navigation.navigate('Carrito');
+    };
 
-  const handleCategoriaChange = (itemValue, itemIndex) => {
-    setSelectedCategoria(itemValue);
-  };
+    // Crear un array de imágenes
+    const imagenes = [
+        require('../img/imagenvinoB.png'),
+        require('../img/vinito.png'),
+        require('../img/vinoss.png')
+    ];
 
-  // Uso del React Hook UseEffect para que cada vez que se cargue la vista por primera vez
-  // se ejecute la funcion getCategorias
-  useEffect(() => {
-    getProductos();
-    getCategorias();
-  }, []);
+    // Funciones para manejar la navegación del carrusel
+    const nextImage = () => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % imagenes.length);
+    };
 
-  const irCarrito = () => {
-    navigation.navigate('Carrito')
-  }
+    const prevImage = () => {
+        setCurrentIndex((prevIndex) => (prevIndex === 0 ? imagenes.length - 1 : prevIndex - 1));
+    };
 
+    return (
+        <View style={styles.container}>
+            <View style={styles.topBar}>
+                <Image
+                    source={require('../img/logoe.png')}
+                    style={styles.image}
+                />
+                <TouchableOpacity onPress={volverInicio}>
+                    <FontAwesome name="bars" size={24} color="black" />
+                </TouchableOpacity>
+            </View>
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Catalogo de Productos</Text>
-
-      <Buttons
-        textoBoton='Volver a Home'
-        accionBoton={volverInicio}
-      />
-
-      <ModalCompra
-        visible={modalVisible}
-        cerrarModal={setModalVisible}
-        nombreProductoModal={nombreProductoModal}
-        idProductoModal={idProductoModal}
-        cantidad={cantidad}
-        setCantidad={setCantidad}
-      />
-
-      <View>
-        <Text style={styles.subtitle}>
-          Selecciona una categoria para filtar productos
-        </Text>
-
-        <View style={styles.pickerContainer}>
-          <RNPickerSelect
-            style={{ inputAndroid: styles.picker }}
-            onValueChange={(value) => getProductos(value)}
-            placeholder={{ label: 'Selecciona una categoría...', value: null }}
-            items={dataCategorias.map(categoria => ({
-              label: categoria.nombre_categoria,
-              value: categoria.id_categoria,
-            }))}
-          />
-        </View>
-
-      </View>
-
-      <SafeAreaView style={styles.containerFlat}>
-        <FlatList
-          data={dataProductos}
-          keyExtractor={(item) => item.id_producto}
-          renderItem={({ item }) => ( // Util izamos destructuración para obtener directamente el item
-
-            <ProductoCard ip={ip}
-              imagenProducto={item.imagen_producto}
-              idProducto={item.id_producto}
-              nombreProducto={item.nombre_producto}
-              descripcionProducto={item.descripcion_producto}
-              precioProducto={item.precio_producto}
-              existenciasProducto={item.existencias_producto}
-              accionBotonProducto={() => handleCompra(item.nombre_producto, item.id_producto)}
+            <CustomDrawer
+                visible={drawerVisible}
+                onClose={() => setDrawerVisible(false)}
+                navigation={navigation}
             />
-          )}
-        />
-      </SafeAreaView>
 
-      <TouchableOpacity
-        style={styles.cartButton}
-        onPress={irCarrito}>
-        <FontAwesome name="shopping-cart" size={24} color="white" />
-        <Text style={styles.cartButtonText}>Ir al carrito</Text>
-      </TouchableOpacity>
+            <ModalCompra
+                visible={modalVisible}
+                cerrarModal={setModalVisible}
+                nombreProductoModal={nombreProductoModal}
+                idProductoModal={idProductoModal}
+                cantidad={cantidad}
+                setCantidad={setCantidad}
+            />
+            
 
-    </View>
-  );
+            <SafeAreaView style={styles.containerFlat}>
+                {/* Aquí reemplazamos ScrollView por FlatList */}
+                <FlatList
+                    data={dataProductos}
+                    keyExtractor={(item) => item.id_producto}
+                    renderItem={({ item }) => (
+                        <ProductoCard
+                            ip={ip}
+                            imagenProducto={item.imagen_producto}
+                            idProducto={item.id_producto}
+                            nombreProducto={item.nombre_producto}
+                            descripcionProducto={item.descripcion_producto}
+                            precioProducto={item.precio_producto}
+                            existenciasProducto={item.existencias_producto}
+                            accionBotonProducto={() => handleCompra(item.nombre_producto, item.id_producto)}
+                        />
+                    )}
+                    // Esta es la adición para permitir el desplazamiento
+                    ListHeaderComponent={
+                        <>
+                            {/* Carrusel */}
+                            <View style={styles.carouselContainer}>
+                                <TouchableOpacity onPress={prevImage}>
+                                    <FontAwesome name="chevron-left" size={24} color="black" />
+                                </TouchableOpacity>
+                                <Image
+                                    source={imagenes[currentIndex]}
+                                    style={styles.imagen2}
+                                />
+                                <TouchableOpacity onPress={nextImage}>
+                                    <FontAwesome name="chevron-right" size={24} color="black" />
+                                </TouchableOpacity>
+                            </View>
+
+                            <View style={styles.categoryContainer}>
+                                <Text style={styles.subtitle}>
+                                    Filtre por categoría de vinos
+                                </Text>
+
+                                <View style={styles.pickerContainer}>
+                                    <RNPickerSelect
+                                        style={{ inputAndroid: styles.picker }}
+                                        onValueChange={(value) => getProductos(value)}
+                                        placeholder={{ label: 'Selecciona una categoría...', value: null }}
+                                        items={dataCategorias.map(categoria => ({
+                                            label: categoria.nombre_categoria,
+                                            value: categoria.id_categoria,
+                                        }))}
+                                    />
+                                </View>
+                            </View>
+                        </>
+                    }
+                />
+
+                {/* View con fondo negro */}
+                <View style={styles.bottomView}>
+                    <View style={styles.bottomContent}>
+                        <Image
+                            source={require('../img/equipod.png')}
+                            style={styles.imagen3}
+                        />
+                        {/* Contenido del View */}
+                        <View style={styles.textContainer}>
+                            <Text style={styles.text}>Equipo Desarrollador</Text>
+                            <FlatList
+                                data={[
+                                    'Iván Daniel Salguero Esperanza',
+                                    'Ricardo Daniel De León Cruz',
+                                    'Edgar Enrique Sacro García'
+                                ]}
+                                renderItem={({ item }) => (
+                                    <View style={styles.listItem}>
+                                        <FontAwesome name="check-square" size={18} color="white" style={styles.icon} />
+                                        <Text style={styles.textItem}>{item}</Text>
+                                    </View>
+                                )}
+                                keyExtractor={(item, index) => index.toString()}
+                            />
+                        </View>
+                    </View>
+                </View>
+
+            </SafeAreaView>
+        </View>
+    );
 }
+    const styles = StyleSheet.create({
+        containerFlat: {
+            flex: 1
+        },
+        container: {
+            flex: 1,
+            backgroundColor: '#fff',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        topBar: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: 20,
+            backgroundColor: '#E9E8E8',
+            height: 60 + Constants.statusBarHeight,
+            width: '100%',
+        },
+        image: {
+            width: 90,
+            height: 35,
+            marginTop: 20
+        },
+        title: {
+            fontSize: 24,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            marginVertical: 16,
+            color: '#5C3D2E',
+        },
+        subtitle: {
+            fontSize: 18,
+            fontWeight: '600',
+            textAlign: 'center',
+            marginBottom: 10,
+            color: '#5C3D2E',
+            marginTop: 20
+        },
+        categoryContainer: {
+            alignItems: 'center', // Alinea horizontalmente el texto y el picker
+        },
+        pickerContainer: {
+            width: '90%', // Ancho del contenedor del picker
+            paddingHorizontal: 20,
+            paddingVertical: 5,
+            borderRadius: 5,
+            marginBottom: 10,
+            borderColor: '#6D0E0E',
+            borderWidth: 2,
+            backgroundColor: '#F5F5F5',
+        },
+        picker: {
+            color: '#322C2B',
+        },
+        cartButton: {
+            flexDirection: 'row',
+            backgroundColor: '#6D0E0E',
+            borderRadius: 10,
+            paddingVertical: 10,
+            paddingHorizontal: 20,
+            marginTop: 20,
+            marginBottom: 20,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        cartButtonText: {
+            color: 'white',
+            fontSize: 18,
+            textAlign: 'center',
+            marginLeft: 10,
+        },
+        imagen2: {
+            width: "100%",
+            height: "100%",
+            flex: 1
+        },
+        carouselContainer: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: "98%",
+            height: 220, // Ajusta la altura del carrusel aquí
+            marginTop: 0.5
+        },
+        bottomView: {
+            width: '80%',
+            height: 120,
+            backgroundColor: 'black',
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        bottomContent: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: 390
+        },
+        imagen3: {
+            width: 97,
+            height: 100,
+            marginRight: 10, // Ajusta el margen derecho
+            marginLeft: 25
+        },
+        textContainer: {
+            marginLeft: 10,
+        },
+        text: {
+            color: 'white',
+            fontWeight: 'bold',
+            fontSize: 16,
+            marginBottom: 10
+        },
+        textItem: {
+            color: 'white',
+        },
+        listItem: {
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+        icon: {
+            marginRight: 5,
+        },
+    });
 
-const styles = StyleSheet.create({
-  containerFlat: {
-    flex: 1,
-    paddingTop: Constants.statusBarHeight,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#EAD8C0',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-  },
-  card: {
-    backgroundColor: '#ffffff',
-    borderRadius: 8,
-    padding: 16,
-    marginVertical: 1,
-    marginHorizontal: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  text: {
-    fontSize: 16,
-    marginBottom: 8,
-  },
-  textTitle: {
-    fontSize: 16,
-    marginBottom: 8,
-    fontWeight: '700'
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 8,
-    marginLeft: 8,
-  },
-  button: {
-    backgroundColor: '#AF8260',
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600'
-  },
-  image: {
-    width: '65%',
-    height: 150,
-    borderRadius: 8,
-    marginBottom: 12,
-  },
-  imageContainer: {
-    alignItems: 'center',
-  },
-  textDentro: {
-    fontWeight: '400'
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginVertical: 16,
-    color: '#5C3D2E',
-  },
-  cartButton: {
-    flexDirection: 'row',
-    backgroundColor: '#AF8260',
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginTop: 20,
-    alignItems: 'center',
-  },
-  cartButtonText: {
-    color: 'white',
-    fontSize: 18,
-    textAlign: 'center',
-    marginLeft: 10,
-  },
-  subtitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    textAlign: 'center',
-    marginBottom: 10,
-    color: '#5C3D2E',
-  },
-  pickerContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 5,
-    borderRadius: 5,
-    marginBottom: 10,
-    borderColor: '#AF8260',
-    borderWidth: 2,
-    backgroundColor: '#F5F5F5',
-  },
-  picker: {
-    color: '#322C2B',
-  },
-});
 
-   

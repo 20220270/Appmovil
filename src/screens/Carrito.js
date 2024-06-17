@@ -1,6 +1,6 @@
 // Importaciones necesarias
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, FlatList, Alert } from 'react-native';
+import { Text, View, StyleSheet, FlatList, Alert, Image, TouchableOpacity } from 'react-native';
 
 import { useFocusEffect } from '@react-navigation/native';
 // Importa la función useFocusEffect de @react-navigation/native, 
@@ -11,6 +11,8 @@ import * as Constantes from '../utils/constantes';
 import Buttons from '../components/Buttons/Button';
 import CarritoCard from '../components/CarritoCard/CarritoCard';
 import ModalEditarCantidad from '../components/Modales/ModalEditarCantidad';
+import { FontAwesome } from '@expo/vector-icons';
+import CustomDrawer from '../../src/tabNavigator/CustomDrawer';
 
 const Carrito = ({ navigation }) => {
   // Estado para almacenar los detalles del carrito
@@ -21,6 +23,8 @@ const Carrito = ({ navigation }) => {
   const [cantidadProductoCarrito, setCantidadProductoCarrito] = useState(0);
   // Estado para controlar la visibilidad del modal de edición de cantidad
   const [modalVisible, setModalVisible] = useState(false);
+  
+  const [drawerVisible, setDrawerVisible] = useState(false);
   // IP del servidor
   const ip = Constantes.IP;
 
@@ -36,6 +40,10 @@ const Carrito = ({ navigation }) => {
       getDetalleCarrito(); // Llama a la función getDetalleCarrito.
     }, [])
   );
+
+  const volverInicio = () => {
+    setDrawerVisible(true);
+  };
 
   // Función para obtener los detalles del carrito desde el servidor
   const getDetalleCarrito = async () => {
@@ -67,7 +75,7 @@ const Carrito = ({ navigation }) => {
       if (data.status) {
         Alert.alert("Se finalizó la compra correctamente")
         setDataDetalleCarrito([]); // Limpia la lista de detalles del carrito
-        navigation.navigate('TabNavigator', { screen: 'Productos' });
+        navigation.navigate('Productos', { screen: 'Productos' });
       } else {
         Alert.alert('Error', data.error);
       }
@@ -102,6 +110,23 @@ const Carrito = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+
+<View style={styles.topBar}>
+        <Image
+          source={require('../img/logoe.png')}
+          style={styles.image}
+        />
+        <TouchableOpacity onPress={volverInicio}>
+          <FontAwesome name="bars" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
+
+      <CustomDrawer
+        visible={drawerVisible}
+        onClose={() => setDrawerVisible(false)}
+        navigation={navigation}
+      />
+
       {/* Componente de modal para editar cantidad */}
       <ModalEditarCantidad
         setModalVisible={setModalVisible}
@@ -148,18 +173,28 @@ export default Carrito;
 
 // Estilos
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#EAD8C0',
-    paddingTop: Constants.statusBarHeight,
-    paddingHorizontal: 16,
+
+  topBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    backgroundColor: '#E9E8E8',
+    height: 60 + Constants.statusBarHeight,
+    width: '100%',
+  },
+  image: {
+    width: 90,
+    height: 35,
+    marginTop: 20
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 16,
-    color: '#5C3D2E',
+    color: '#000',
+    marginTop: 70
   },
   titleDetalle: {
     fontSize: 20,
@@ -171,5 +206,5 @@ const styles = StyleSheet.create({
   containerButtons: {
     justifyContent: 'center',
     alignItems: 'center',
-  }
+  },
 });

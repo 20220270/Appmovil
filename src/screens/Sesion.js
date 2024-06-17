@@ -5,6 +5,7 @@ import Input from '../components/Inputs/Input'
 import Buttons from '../components/Buttons/Button';
 import TopBar from '../components/topBar/topBar';
 import * as Constantes from '../utils/constantes'
+import SignUp from './SignUp';
 
 export default function Sesion({ navigation }) {
   const ip = Constantes.IP;
@@ -69,7 +70,7 @@ export default function Sesion({ navigation }) {
         if (data.status) {
             setContrasenia('');
             setUsuario('');
-            navigation.navigate('Home'); // Navega a la pantalla Home dentro del DrawerNavigator
+            navigation.navigate('Productos'); // Navega a la pantalla Home dentro del DrawerNavigator
         } else {
             console.log(data);
             Alert.alert('Error sesión', data.error);

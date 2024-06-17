@@ -5,7 +5,7 @@ import React from 'react';
 export default function UpdateUser({ navigation }) {
 
   const volverInicio = () => {
-    navigation.navigate('DrawerNavigator');
+    navigation.navigate('Home');
   };
 
   return (

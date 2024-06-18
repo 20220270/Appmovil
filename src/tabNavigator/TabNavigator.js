@@ -10,6 +10,7 @@ import Carrito from '../screens/Carrito';
 import UpdateUser from '../screens/UpdateUser';
 import Sesion from '../screens/Sesion'; // Importa la pantalla de Sesion
 import SignUp from '../screens/SignUp';
+import MisCompras from '../screens/MisCompras';
 
 const Drawer = createDrawerNavigator();
 
@@ -63,6 +64,14 @@ const DrawerNavigator = () => {
                 options={{ 
                     title: 'Carrito',
                     headerShown: false, // Oculta el título de la pantalla
+                }}
+            />
+            <Drawer.Screen
+                name="MisCompras"
+                component={MisCompras}
+                options={{ 
+                    title: 'Compras',
+                    
                 }}
             />
             <Drawer.Screen

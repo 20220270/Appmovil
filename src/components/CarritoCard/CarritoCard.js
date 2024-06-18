@@ -3,6 +3,8 @@ import { Text, TouchableOpacity, View, StyleSheet, FlatList, Alert } from 'react
 import Constants from 'expo-constants';
 import * as Constantes from '../../utils/constantes'
 
+
+
 const CarritoCard = ({item, cargarCategorias, 
   modalVisible,
   setModalVisible,
@@ -13,29 +15,7 @@ const CarritoCard = ({item, cargarCategorias,
   setIdDetalle, getDetalleCarrito, updateDataDetalleCarrito}) => {
 
     const ip = Constantes.IP;
-    //asignar el valor a cantidadproducto carrito que viene 
-  
-/*
-    const handleDeleteDetalleCarrito = async (idDetalle) => {
-      try {
-        const formData = new FormData();
-        formData.append('idDetalle', idDetalle);
-        const response = await fetch(`${ip}/coffeeshop/api/services/public/pedido.php?action=deleteDetail`, {
-          method: 'POST',
-          body: formData
-        });
-        const data = await response.json();
-        if (data.status) {
-          Alert.alert('Datos eliminados correctamente del carrito');
-          // Llamar a la función de actualización para actualizar la lista
-          updateDataDetalleCarrito(prevData => prevData.filter(item => item.id_detalle !== idDetalle));
-        } else {
-          Alert.alert('Error al eliminar del carrito', data.error);
-        }
-      } catch (error) {
-        Alert.alert("Error al eliminar del carrito")
-      }
-    };*/
+
     
     const handleDeleteDetalleCarrito = async (idDetalle) => {
       try {
@@ -71,8 +51,15 @@ const CarritoCard = ({item, cargarCategorias,
         );
       } catch (error) {
         Alert.alert("Error al eliminar del carrito")
+        console.log("No se elimino")
       }
     };
+
+    const subtotalConDescuento = (
+      parseFloat(item.precio_producto) * parseFloat(item.cantidad_producto) - 
+      (parseFloat(item.precio_producto) * parseFloat(item.cantidad_producto) * parseFloat(item.descuento_producto) / 100)
+    ).toFixed(2); //Calculamos el descuento del producto, tomando el precio, la cantidad adquirida y el descuento registrado
+    //Dividimos entre 100 el descuento para aplicarselo al subtotal
      
 
   return (
@@ -83,6 +70,8 @@ const CarritoCard = ({item, cargarCategorias,
     <Text style={styles.itemText}>Precio: ${item.precio_producto}</Text>
     <Text style={styles.itemText}>Cantidad: {item.cantidad_producto}</Text>
     <Text style={styles.itemText}>SubTotal: ${(parseFloat(item.cantidad_producto)*parseFloat(item.precio_producto)).toFixed(2)}</Text>
+    <Text style={styles.itemText}>SubTotal con descuento: ${subtotalConDescuento}</Text>
+
 
     <TouchableOpacity style={styles.modifyButton}
     onPress={()=>accionBotonDetalle(item.id_detalle, item.cantidad_producto)}

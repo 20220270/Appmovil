@@ -16,9 +16,9 @@ export default function Input({ placeHolder, setValor, contra, setTextChange }) 
 const styles = StyleSheet.create({
   input: {
     backgroundColor: '#FCF9F9',
-    borderColor: '#000',
-    borderWidth: 1,
-    color: "#000", // Color del texto
+    borderBottomColor: '#000', // Color del borde inferior
+    borderBottomWidth: 1, // Ancho del borde inferior
+    color: '#000', // Color del texto
     fontWeight: '800',
     width: 250,
     borderRadius: 5,

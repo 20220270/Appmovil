@@ -1,8 +1,49 @@
-import React from 'react';
-import { Modal, View, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Modal, View, TouchableOpacity, StyleSheet, Text, Alert } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import * as Constantes from '../utils/constantes';
+
+const ip = Constantes.IP;
+
+const handleLogout = async (navigation) => {
+  try {
+    const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/cliente.php?action=logOut`, {
+      method: 'GET'
+    });
+    const data = await response.json();
+    if (data.status) {
+      navigation.navigate('Sesion');
+    } else {
+      Alert.alert('Error', data.error);
+    }
+  } catch (error) {
+    Alert.alert('Error', 'Ocurrió un error al cerrar la sesión');
+  }
+};
 
 const CustomDrawer = ({ visible, onClose, navigation }) => {
+  const [nombre, setNombre] = useState(null);
+
+  const getUser = async () => {
+    try {
+      const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/cliente.php?action=getUser`, {
+        method: 'GET'
+      });
+      const data = await response.json();
+      if (data.status) {
+        setNombre(data.username); // Asegúrate de acceder al campo correcto
+      } else {
+        Alert.alert('Error', data.error);
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Ocurrió un error al obtener el usuario');
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
     <Modal
       animationType="slide"
@@ -34,16 +75,7 @@ const CustomDrawer = ({ visible, onClose, navigation }) => {
 
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('Productos');
-              onClose();
-            }}
-          >
-            <Text style={styles.drawerItem}>Sobre nosotros</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Productos');
+              navigation.navigate('MisCompras');  // Navega a la pantalla 'MisCompras'
               onClose();
             }}
           >
@@ -52,13 +84,12 @@ const CustomDrawer = ({ visible, onClose, navigation }) => {
 
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('Productos');
+              handleLogout(navigation);
               onClose();
             }}
           >
             <Text style={styles.drawerItem}>Cerrar sesión</Text>
           </TouchableOpacity>
-          
 
           <View style={styles.row}>
             <TouchableOpacity
@@ -68,7 +99,7 @@ const CustomDrawer = ({ visible, onClose, navigation }) => {
                 onClose();
               }}
             >
-              <Text style={styles.updateUserText}>Actualizar Usuario</Text>
+              <Text style={styles.updateUserText}>{nombre ? nombre : 'Actualizar Usuario'}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cartButton}
@@ -123,7 +154,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   updateUserText: {
-    fontSize: 18,
+    fontSize: 14,
   },
   cartButton: {
     flexDirection: 'row',

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Alert, Image } from 'react-native';
 import Buttons from '../components/Buttons/Button';
 import * as Constantes from '../utils/constantes';
+import TopBar from '../components/topBar/topBar';
 
 export default function Home({ navigation }) {
   const [nombre, setNombre] = useState(null);
@@ -38,12 +39,12 @@ export default function Home({ navigation }) {
       });
       const data = await response.json();
       if (data.status) {
-        setNombre(data.name.nombre_cliente);
+        setNombre(data.username); // Aqui accedemos al correo registrado y lo mostramos en pantalla.
       } else {
         Alert.alert('Error', data.error);
       }
     } catch (error) {
-      Alert.alert('Error', 'Ocurrió un error al cerrar la sesión');
+      Alert.alert('Error', 'Ocurrió un error al obtener el usuario');
     }
   };
 
@@ -53,6 +54,7 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <TopBar/>
       <Image
         source={require('../../assets/logoe.png')}
         style={styles.image}
@@ -60,7 +62,7 @@ export default function Home({ navigation }) {
       <Text style={styles.title}>Bienvenid@</Text>
       <Text style={styles.subtitle}>
         { /*correo ? correo : 'No hay correo para mostrar'*/}
-        {nombre ? nombre : 'No hay Nombre para mostrar'}
+        {nombre ? nombre : 'No hay correo para mostrar'}
       </Text>
       <Buttons
         textoBoton='Cerrar Sesión'
@@ -82,7 +84,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EAD8C0',
+    backgroundColor: '#FFF',
     alignItems: 'center',
     justifyContent: 'center'
   },

@@ -1,14 +1,15 @@
+// Productos.js
 import React, { useState, useEffect } from 'react';
-import { StatusBar, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList, Image } from 'react-native';
+import { StatusBar, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList, Image, TextInput } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import TopBar from '../components/topBar/topBar';
-import ProductoCard from '../components/Productos/ProductoCard';
 import ModalCompra from '../components/Modales/ModalCompra';
 import * as Constantes from '../utils/constantes';
 import CustomDrawer from '../../src/tabNavigator/CustomDrawer';
-import Buttons from '../components/Buttons/Button';
 import RNPickerSelect from 'react-native-picker-select';
 import Constants from 'expo-constants';
+import NavBarGris from '../components/topBarGris/navBarGris';
+import Footer from '../components/Footer/Footer';
+import ProductoCard from '../components/Productos/ProductoCard';
 
 export default function Productos({ navigation }) {
     const ip = Constantes.IP;
@@ -72,9 +73,7 @@ export default function Productos({ navigation }) {
         }
     };
 
-    const handleCategoriaChange = (itemValue, itemIndex) => {
-        setSelectedCategoria(itemValue);
-    };
+    
 
     useEffect(() => {
         getProductos();
@@ -103,15 +102,8 @@ export default function Productos({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <View style={styles.topBar}>
-                <Image
-                    source={require('../img/logoe.png')}
-                    style={styles.image}
-                />
-                <TouchableOpacity onPress={volverInicio}>
-                    <FontAwesome name="bars" size={24} color="black" />
-                </TouchableOpacity>
-            </View>
+            {/* NavBar gris*/}
+            <NavBarGris volverInicio={volverInicio} />
 
             <CustomDrawer
                 visible={drawerVisible}
@@ -138,11 +130,11 @@ export default function Productos({ navigation }) {
                         <ProductoCard
                             ip={ip}
                             imagenProducto={item.imagen_producto}
-                            idProducto={item.id_producto}
                             nombreProducto={item.nombre_producto}
                             descripcionProducto={item.descripcion_producto}
                             precioProducto={item.precio_producto}
                             existenciasProducto={item.existencias_producto}
+                            descuentoProducto={item.descuento_producto}
                             accionBotonProducto={() => handleCompra(item.nombre_producto, item.id_producto)}
                         />
                     )}
@@ -183,35 +175,7 @@ export default function Productos({ navigation }) {
                         </>
                     }
                 />
-
-                {/* View con fondo negro */}
-                <View style={styles.bottomView}>
-                    <View style={styles.bottomContent}>
-                        <Image
-                            source={require('../img/equipod.png')}
-                            style={styles.imagen3}
-                        />
-                        {/* Contenido del View */}
-                        <View style={styles.textContainer}>
-                            <Text style={styles.text}>Equipo Desarrollador</Text>
-                            <FlatList
-                                data={[
-                                    'Iván Daniel Salguero Esperanza',
-                                    'Ricardo Daniel De León Cruz',
-                                    'Edgar Enrique Sacro García'
-                                ]}
-                                renderItem={({ item }) => (
-                                    <View style={styles.listItem}>
-                                        <FontAwesome name="check-square" size={18} color="white" style={styles.icon} />
-                                        <Text style={styles.textItem}>{item}</Text>
-                                    </View>
-                                )}
-                                keyExtractor={(item, index) => index.toString()}
-                            />
-                        </View>
-                    </View>
-                </View>
-
+                <Footer />
             </SafeAreaView>
         </View>
     );
@@ -302,7 +266,7 @@ export default function Productos({ navigation }) {
             marginTop: 0.5
         },
         bottomView: {
-            width: '80%',
+            width: '100%',
             height: 120,
             backgroundColor: 'black',
             justifyContent: 'center',
@@ -338,6 +302,7 @@ export default function Productos({ navigation }) {
         icon: {
             marginRight: 5,
         },
+        iconButton: {
+            marginTop: 20, // Agrega el margen superior al icono
+          },
     });
-
-

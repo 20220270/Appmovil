@@ -2,13 +2,14 @@
 import { StatusBar, StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, FlatList, ScrollView, SafeAreaView, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import { FontAwesome } from '@expo/vector-icons'; // Importamos el ícono
-
+import Constants from 'expo-constants';
+import * as Constantes from '../../utils/constantes';
 //recibimos por props la imagen del producto, nombre, precio y otras propiedades de productos para mostrarlas en el componente de 
 //productoCard
-
+const ip = Constantes.IP;
 
 export default function ProductoCard({ ip, imagenProducto, idProducto, nombreProducto, descripcionProducto
-  , precioProducto, existenciasProducto, accionBotonProducto
+  , precioProducto, existenciasProducto, descuentoProducto, accionBotonProducto
 }) {
 
   return (
@@ -21,11 +22,13 @@ export default function ProductoCard({ ip, imagenProducto, idProducto, nombrePro
           resizeMode="contain" // Ajustar la imagen al contenedor
         />
       </View>
-      <Text style={styles.text}>{idProducto}</Text>
+      
       <Text style={styles.textTitle}>{nombreProducto}</Text>
       <Text style={styles.text}>{descripcionProducto}</Text>
       <Text style={styles.textTitle}>Precio: <Text style={styles.textDentro}>${precioProducto}</Text></Text>
-      <Text style={styles.textTitle}>Existencias: <Text style={styles.textDentro}>{existenciasProducto} {(existenciasProducto === 1) ? 'Unidad' : 'Unidades'}</Text></Text>
+      <Text style={styles.textTitle}>Existencias: <Text style={styles.textDentro}>{existenciasProducto} {(existenciasProducto === 1)
+       ? 'Unidad' : 'Unidades'}</Text></Text>
+       <Text style={styles.textTitle}>Descuento: <Text style={styles.textDentro}>{descuentoProducto}%</Text></Text>
       <TouchableOpacity
         style={styles.cartButton}
         onPress={accionBotonProducto}>

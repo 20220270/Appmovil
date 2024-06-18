@@ -1,15 +1,24 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import NavBarGris from '../components/topBarGris/navBarGris';
+import CustomDrawer from '../../src/tabNavigator/CustomDrawer';
 
 
 export default function UpdateUser({ navigation }) {
+  const [drawerVisible, setDrawerVisible] = useState(false);
 
   const volverInicio = () => {
-    navigation.navigate('Home');
+    setDrawerVisible(true);
   };
 
   return (
     <View style={styles.container}>
+      <NavBarGris volverInicio={volverInicio} />
+      <CustomDrawer
+        visible={drawerVisible}
+        onClose={() => setDrawerVisible(false)}
+        navigation={navigation}
+      />
       <Text style={styles.title}>Actualizar Usuario</Text>
       <Text style={styles.subtitle}>PROXIMAMENTE ...</Text>
       <TouchableOpacity style={styles.button} onPress={volverInicio}>
@@ -22,26 +31,25 @@ export default function UpdateUser({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EAD8C0',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#FFF',
+
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 10,
-    color: '#5C3D2E', // Brown color for the title
+    color: '#6D0E0E', // Brown color for the title
   },
   subtitle: {
     fontSize: 20,
     fontWeight: '600',
     textAlign: 'center',
     marginVertical: 10,
-    color: '#5C3D2E', // Brown color for the subtitle
+    color: '#6D0E0E', // Brown color for the subtitle
   },
   button: {
-    backgroundColor: '#AF8260', // Brown color for the button
+    backgroundColor: '#6D0E0E', // Brown color for the button
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,

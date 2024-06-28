@@ -13,8 +13,11 @@ import UserModal from '../Modales/UserModal';
 import Buttons from '../components/Buttons/Button';
 
 export default function UpdateUser({ navigation }) {
+    // Estados para manejar la visibilidad del drawer y el modal
     const [drawerVisible, setDrawerVisible] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    
+    // Estados para almacenar los datos del usuario
     const [idCliente, setId] = useState('');
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
@@ -24,12 +27,17 @@ export default function UpdateUser({ navigation }) {
     const [telefono, setTelefono] = useState('');
     const [clave, setClave] = useState('');
     const [confirmarClave, setConfirmar] = useState('');
+    
+    // Estado para manejar el tipo de modal (crear, editar o cambiar contraseña)
     const [modalType, setModalType] = useState('');
+    
+    // Estado para almacenar los datos del perfil del usuario
     const [profileData, setProfileData] = useState(null);
-    const [selectedUser, setSelectedUser] = useState({});
-
+    
+    // Constante que almacena la dirección IP del servidor
     const ip = Constantes.IP;
 
+    // Función para obtener los datos del perfil del usuario desde el servidor
     const getProfileData = async () => {
         try {
             const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/cliente.php?action=readProfile`, {
@@ -39,8 +47,9 @@ export default function UpdateUser({ navigation }) {
 
             const data = await response.json();
             if (data.status) {
+                // Si la solicitud es exitosa, se actualizan los estados con los datos del perfil
                 setProfileData(data.dataset);
-                setId(data.dataset.id_cliente); // Asegúrate de obtener y establecer el idCliente
+                setId(data.dataset.id_cliente);
                 setNombre(data.dataset.nombre_cliente);
                 setApellido(data.dataset.apellido_cliente);
                 setCorreo(data.dataset.correo_cliente);
@@ -48,13 +57,16 @@ export default function UpdateUser({ navigation }) {
                 setDui(data.dataset.dui_cliente);
                 setTelefono(data.dataset.telefono_cliente);
             } else {
+                // Si hay un error, se muestra una alerta
                 Alert.alert('Error perfil', data.error);
             }
         } catch (error) {
+            // Manejo de errores en caso de que la solicitud falle
             Alert.alert('Error', 'Ocurrió un error al obtener los datos del perfil');
         }
     };
 
+    // Función para editar los datos del usuario
     const handleEditUser = async () => {
         try {
             const formData = new FormData();
@@ -66,65 +78,84 @@ export default function UpdateUser({ navigation }) {
             formData.append('duiCliente', dui);
             formData.append('telefonoCliente', telefono);
 
-            // Añadir estos logs para depuración
-            console.log('Enviando datos:', {
-                idCliente,
-                nombreCliente: nombre,
-                apellidoCliente: apellido,
-                correoCliente: correo,
-                direccionCliente: direccion,
-                duiCliente: dui,
-                telefonoCliente: telefono,
-            });
-
             const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/cliente.php?action=editProfile`, {
                 method: 'POST',
                 body: formData
             });
 
-            // Verificar si la respuesta es JSON antes de analizarla
-            const responseText = await response.text();
-            console.log('Respuesta del servidor:', responseText);
-
-            try {
-                const data = JSON.parse(responseText);
-                if (data.status) {
-                    Alert.alert('Éxito', data.message);
-                    setIsModalVisible(false);
-                } else {
-                    Alert.alert('Error', data.error);
-                }
-            } catch (error) {
-                throw new Error('La respuesta del servidor no es un JSON válido.');
+            const data = await response.json();
+            if (data.status) {
+                Alert.alert('Éxito', data.message);
+                setIsModalVisible(false);
+            } else {
+                Alert.alert('Error', data.error);
             }
         } catch (error) {
-            // Capturar el mensaje de error real
             console.error('Error al editar el usuario:', error);
             Alert.alert('Error', `Ocurrió un error al editar el usuario: ${error.message}`);
         }
     };
 
+    // Función para cambiar la contraseña del usuario
+    const handleChangePassword = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('claveActual', clave);
+            formData.append('claveNueva', confirmarClave);
+            formData.append('confirmarClave', confirmarClave);
+
+            const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/cliente.php?action=changePassword`, {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            if (data.status) {
+                Alert.alert('Éxito', data.message);
+                setIsModalVisible(false);
+            } else {
+                Alert.alert('Error', data.error);
+            }
+        } catch (error) {
+            console.error('Error al cambiar la contraseña:', error);
+            Alert.alert('Error', `Ocurrió un error al cambiar la contraseña: ${error.message}`);
+        }
+    };
+
+    // Función para abrir el modal de edición
     const openEditModal = () => {
         setModalType('edit');
         setIsModalVisible(true);
     };
 
+    // Función para abrir el modal de cambio de contraseña
+    const openChangePassword = () => {
+        setModalType('password');
+        setIsModalVisible(true);
+    };
+
+    // Función para cerrar el modal
     const closeModal = () => {
         setIsModalVisible(false);
     };
 
+    // Función para manejar el envío del formulario según el tipo de modal
     const handleSubmit = () => {
         if (modalType === 'edit') {
             handleEditUser();
+        } else if (modalType === 'password') {
+            handleChangePassword();
         }
     };
 
+    // Función para volver al inicio (mostrar el drawer)
     const volverInicio = () => {
         setDrawerVisible(true);
     };
 
+    // Uso del hook useEffect para obtener los datos del perfil cuando el componente se monta
     useEffect(() => {
-        getProfileData(); // Llamar a la función para obtener los datos del perfil
+        getProfileData();
     }, []);
 
     return (
@@ -167,11 +198,14 @@ export default function UpdateUser({ navigation }) {
                     telefono={telefono}
                     setTelefono={setTelefono}
                 />
-
                 <Buttons
-                textoBoton="Desplegar datos"
-                accionBoton={openEditModal}/>
-
+                    textoBoton="Editar datos"
+                    accionBoton={openEditModal}
+                />
+                <Buttons
+                    textoBoton="Cambiar contraseña"
+                    accionBoton={openChangePassword}
+                />
                 <UserModal
                     isVisible={isModalVisible}
                     onClose={closeModal}
@@ -211,21 +245,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     texto: {
-        color: '#322C2B', fontWeight: '900',
+        color: '#322C2B',
+        fontWeight: '900',
         fontSize: 20,
         marginTop: 100
     },
-    button: {
-        backgroundColor: '#AF8260',
-        borderRadius: 5,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        alignItems: 'center',
-        marginVertical: 5,
-    },
-    buttonText: {
-        color: '#ffffff',
-        fontSize: 16,
-        fontWeight: '600',
-    }
 });

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
@@ -23,54 +22,70 @@ const UserModal = ({
             <View style={styles.modalContent}>
                 {modalType === 'create' && <Text style={styles.modalTitle}>Crear Usuario</Text>}
                 {modalType === 'edit' && <Text style={styles.modalTitle}>Editar Usuario</Text>}
-                <TextInput
-                    style={styles.input}
-                    placeholder="Nombre"
-                    value={nombre}
-                    onChangeText={text => setNombre(text)}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Apellido"
-                    value={apellido}
-                    onChangeText={text => setApellido(text)}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Correo"
-                    value={correo}
-                    onChangeText={text => setCorreo(text)}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Dirección"
-                    value={direccion}
-                    onChangeText={text => setDireccion(text)}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="DUI"
-                    value={dui}
-                    onChangeText={text => setDui(text)}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Teléfono"
-                    value={telefono}
-                    onChangeText={text => setTelefono(text)}
-                />
-                {modalType === 'create' && (
+                {modalType === 'password' && <Text style={styles.modalTitle}>Cambiar Contraseña</Text>}
+                
+                {/* Renderización condicional de los inputs */}
+                {(modalType === 'create' || modalType === 'edit') && (
                     <>
                         <TextInput
                             style={styles.input}
-                            placeholder="Contraseña"
+                            placeholder="Nombre"
+                            value={nombre}
+                            onChangeText={text => setNombre(text)}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Apellido"
+                            value={apellido}
+                            onChangeText={text => setApellido(text)}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Correo"
+                            value={correo}
+                            onChangeText={text => setCorreo(text)}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Dirección"
+                            value={direccion}
+                            onChangeText={text => setDireccion(text)}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="DUI"
+                            value={dui}
+                            onChangeText={text => setDui(text)}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Teléfono"
+                            value={telefono}
+                            onChangeText={text => setTelefono(text)}
+                        />
+                    </>
+                )}
+
+                {/* Renderización condicional para cambio de contraseña */}
+                {modalType === 'password' && (
+                    <>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Clave Actual"
                             secureTextEntry
                             value={clave}
                             onChangeText={text => setClave(text)}
                         />
                         <TextInput
                             style={styles.input}
-                            placeholder="Confirmar Contraseña"
+                            placeholder="Nueva Contraseña"
+                            secureTextEntry
+                            value={confirmarClave}
+                            onChangeText={text => setConfirmarClave(text)}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Confirmar Nueva Contraseña"
                             secureTextEntry
                             value={confirmarClave}
                             onChangeText={text => setConfirmarClave(text)}
@@ -79,10 +94,9 @@ const UserModal = ({
                 )}
 
                 <Buttons
-                textoBoton="Actualizar datos"
-                accionBoton={onSubmit}/>
-                <Text style={styles.buttonText}>{modalType === 'create' ? 'Crear' : 'Editar'} Usuario</Text>
-                
+                    textoBoton={modalType === 'password' ? 'Cambiar Contraseña' : 'Actualizar Datos'}
+                    accionBoton={onSubmit}
+                />
             </View>
         </Modal>
     );

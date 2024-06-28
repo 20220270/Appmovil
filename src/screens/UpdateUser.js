@@ -158,6 +158,7 @@ export default function UpdateUser({ navigation }) {
         getProfileData();
     }, []);
 
+    //Componenete que se muestra
     return (
         <View style={styles.container}>
             <NavBarGris volverInicio={volverInicio} />

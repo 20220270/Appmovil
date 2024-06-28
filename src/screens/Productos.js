@@ -1,6 +1,6 @@
 // Productos.js
 import React, { useState, useEffect } from 'react';
-import { StatusBar, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList, Image, TextInput } from 'react-native';
+import { StatusBar, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList, Image, TextInput, ScrollView,  } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import ModalCompra from '../components/Modales/ModalCompra';
 import * as Constantes from '../utils/constantes';
@@ -73,7 +73,7 @@ export default function Productos({ navigation }) {
         }
     };
 
-    
+
 
     useEffect(() => {
         getProductos();
@@ -119,7 +119,7 @@ export default function Productos({ navigation }) {
                 cantidad={cantidad}
                 setCantidad={setCantidad}
             />
-            
+
 
             <SafeAreaView style={styles.containerFlat}>
                 {/* Aquí reemplazamos ScrollView por FlatList */}
@@ -160,17 +160,21 @@ export default function Productos({ navigation }) {
                                     Filtre por categoría de vinos
                                 </Text>
 
-                                <View style={styles.pickerContainer}>
-                                    <RNPickerSelect
-                                        style={{ inputAndroid: styles.picker }}
-                                        onValueChange={(value) => getProductos(value)}
-                                        placeholder={{ label: 'Selecciona una categoría...', value: null }}
-                                        items={dataCategorias.map(categoria => ({
-                                            label: categoria.nombre_categoria,
-                                            value: categoria.id_categoria,
-                                        }))}
-                                    />
-                                </View>
+                                <ScrollView
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    style={styles.scrollContainer}
+                                >
+                                    {dataCategorias.map((categoria) => (
+                                        <TouchableOpacity
+                                            key={categoria.id_categoria}
+                                            style={styles.categoriaItem}
+                                            onPress={() => getProductos(categoria.id_categoria)}
+                                        >
+                                            <Text style={styles.categoriaText}>{categoria.nombre_categoria}</Text>
+                                        </TouchableOpacity>
+                                    ))}
+                                </ScrollView>
                             </View>
                         </>
                     }
@@ -180,129 +184,145 @@ export default function Productos({ navigation }) {
         </View>
     );
 }
-    const styles = StyleSheet.create({
-        containerFlat: {
-            flex: 1
-        },
-        container: {
-            flex: 1,
-            backgroundColor: '#fff',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-        topBar: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingHorizontal: 20,
-            backgroundColor: '#E9E8E8',
-            height: 60 + Constants.statusBarHeight,
-            width: '100%',
-        },
-        image: {
-            width: 90,
-            height: 35,
-            marginTop: 20
-        },
-        title: {
-            fontSize: 24,
-            fontWeight: 'bold',
-            textAlign: 'center',
-            marginVertical: 16,
-            color: '#5C3D2E',
-        },
-        subtitle: {
-            fontSize: 18,
-            fontWeight: '600',
-            textAlign: 'center',
-            marginBottom: 10,
-            color: '#5C3D2E',
-            marginTop: 20
-        },
-        categoryContainer: {
-            alignItems: 'center', // Alinea horizontalmente el texto y el picker
-        },
-        pickerContainer: {
-            width: '90%', // Ancho del contenedor del picker
-            paddingHorizontal: 20,
-            paddingVertical: 5,
-            borderRadius: 5,
-            marginBottom: 10,
-            borderColor: '#6D0E0E',
-            borderWidth: 2,
-            backgroundColor: '#F5F5F5',
-        },
-        picker: {
-            color: '#322C2B',
-        },
-        cartButton: {
-            flexDirection: 'row',
-            backgroundColor: '#6D0E0E',
-            borderRadius: 10,
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-            marginTop: 20,
-            marginBottom: 20,
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-        cartButtonText: {
-            color: 'white',
-            fontSize: 18,
-            textAlign: 'center',
-            marginLeft: 10,
-        },
-        imagen2: {
-            width: "100%",
-            height: "100%",
-            flex: 1
-        },
-        carouselContainer: {
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: "98%",
-            height: 220, // Ajusta la altura del carrusel aquí
-            marginTop: 0.5
-        },
-        bottomView: {
-            width: '100%',
-            height: 120,
-            backgroundColor: 'black',
-            justifyContent: 'center',
-            alignItems: 'center'
-        },
-        bottomContent: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            width: 390
-        },
-        imagen3: {
-            width: 97,
-            height: 100,
-            marginRight: 10, // Ajusta el margen derecho
-            marginLeft: 25
-        },
-        textContainer: {
-            marginLeft: 10,
-        },
-        text: {
-            color: 'white',
-            fontWeight: 'bold',
-            fontSize: 16,
-            marginBottom: 10
-        },
-        textItem: {
-            color: 'white',
-        },
-        listItem: {
-            flexDirection: 'row',
-            alignItems: 'center',
-        },
-        icon: {
-            marginRight: 5,
-        },
-        iconButton: {
-            marginTop: 20, // Agrega el margen superior al icono
-          },
-    });
+const styles = StyleSheet.create({
+    containerFlat: {
+        flex: 1
+    },
+    scrollContainer: {
+        flexDirection: 'row',
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        backgroundColor: '#6D0E0E',
+    },
+    categoriaItem: {
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 20,
+        marginHorizontal: 6,
+    },
+    categoriaText: {
+        color: 'white',
+        fontWeight: 'bold',
+    },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    topBar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 20,
+        backgroundColor: '#E9E8E8',
+        height: 60 + Constants.statusBarHeight,
+        width: '100%',
+    },
+    image: {
+        width: 90,
+        height: 35,
+        marginTop: 20
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginVertical: 16,
+        color: '#5C3D2E',
+    },
+    subtitle: {
+        fontSize: 18,
+        fontWeight: '600',
+        textAlign: 'center',
+        marginBottom: 10,
+        color: '#5C3D2E',
+        marginTop: 20
+    },
+    categoryContainer: {
+        alignItems: 'center', // Alinea horizontalmente el texto y el picker
+    },
+    pickerContainer: {
+        width: '90%', // Ancho del contenedor del picker
+        paddingHorizontal: 20,
+        paddingVertical: 5,
+        borderRadius: 5,
+        marginBottom: 10,
+        borderColor: '#6D0E0E',
+        borderWidth: 2,
+        backgroundColor: '#F5F5F5',
+    },
+    picker: {
+        color: '#322C2B',
+    },
+    cartButton: {
+        flexDirection: 'row',
+        backgroundColor: '#6D0E0E',
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        marginTop: 20,
+        marginBottom: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    cartButtonText: {
+        color: 'white',
+        fontSize: 18,
+        textAlign: 'center',
+        marginLeft: 10,
+    },
+    imagen2: {
+        width: "100%",
+        height: "100%",
+        flex: 1
+    },
+    carouselContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: "98%",
+        height: 220, // Ajusta la altura del carrusel aquí
+        marginTop: 0.5
+    },
+    bottomView: {
+        width: '100%',
+        height: 120,
+        backgroundColor: 'black',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    bottomContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: 390
+    },
+    imagen3: {
+        width: 97,
+        height: 100,
+        marginRight: 10, // Ajusta el margen derecho
+        marginLeft: 25
+    },
+    textContainer: {
+        marginLeft: 10,
+    },
+    text: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 16,
+        marginBottom: 10
+    },
+    textItem: {
+        color: 'white',
+    },
+    listItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    icon: {
+        marginRight: 5,
+    },
+    iconButton: {
+        marginTop: 20, // Agrega el margen superior al icono
+    },
+});

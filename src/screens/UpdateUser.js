@@ -16,7 +16,7 @@ export default function UpdateUser({ navigation }) {
     // Estados para manejar la visibilidad del drawer y el modal
     const [drawerVisible, setDrawerVisible] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    
+
     // Estados para almacenar los datos del usuario
     const [idCliente, setId] = useState('');
     const [nombre, setNombre] = useState('');
@@ -27,13 +27,13 @@ export default function UpdateUser({ navigation }) {
     const [telefono, setTelefono] = useState('');
     const [clave, setClave] = useState('');
     const [confirmarClave, setConfirmar] = useState('');
-    
+
     // Estado para manejar el tipo de modal (crear, editar o cambiar contraseña)
     const [modalType, setModalType] = useState('');
-    
+
     // Estado para almacenar los datos del perfil del usuario
     const [profileData, setProfileData] = useState(null);
-    
+
     // Constante que almacena la dirección IP del servidor
     const ip = Constantes.IP;
 
@@ -170,34 +170,48 @@ export default function UpdateUser({ navigation }) {
             <ScrollView contentContainerStyle={styles.scrollViewStyle}>
                 <Text style={styles.texto}>Datos del usuario</Text>
                 <Input
-                    placeHolder='Nombre Cliente'
-                    setValor={nombre}
-                    setTextChange={setNombre}
-                />
-                <Input
-                    placeHolder='Apellido Cliente'
-                    setValor={apellido}
-                    setTextChange={setApellido}
-                />
-                <InputEmail
-                    placeHolder='Email Cliente'
-                    setValor={correo}
-                    setTextChange={setCorreo}
-                />
-                <InputMultiline
-                    placeHolder='Dirección Cliente'
-                    setValor={direccion}
-                    valor={direccion}
-                    setTextChange={setDireccion}
-                />
-                <MaskedInputDui
-                    dui={dui}
-                    setDui={setDui}
-                />
-                <MaskedInputTelefono
-                    telefono={telefono}
-                    setTelefono={setTelefono}
-                />
+    placeHolder='Nombre Cliente'
+    setValor={nombre}
+    setTextChange={setNombre}
+    editable={!isModalVisible}
+    style={isModalVisible ? styles.inactivo : {}}
+/>
+<Input
+    placeHolder='Apellido Cliente'
+    setValor={apellido}
+    setTextChange={setApellido}
+    editable={!isModalVisible}
+    style={isModalVisible ? styles.inactivo : {}}
+/>
+<InputEmail
+    placeHolder='Email Cliente'
+    setValor={correo}
+    setTextChange={setCorreo}
+    editable={!isModalVisible}
+    style={isModalVisible ? styles.inactivo : {}}
+/>
+<InputMultiline
+    placeHolder='Dirección Cliente'
+    setValor={direccion}
+    valor={direccion}
+    setTextChange={setDireccion}
+    editable={!isModalVisible}
+    style={isModalVisible ? styles.inactivo : {}}
+/>
+<MaskedInputDui
+    dui={dui}
+    setDui={setDui}
+    editable={!isModalVisible}
+    style={isModalVisible ? styles.inactivo : {}}
+/>
+<MaskedInputTelefono
+    telefono={telefono}
+    setTelefono={setTelefono}
+    editable={!isModalVisible}
+    style={isModalVisible ? styles.inactivo : {}}
+/>
+
+
                 <Buttons
                     textoBoton="Editar datos"
                     accionBoton={openEditModal}
@@ -250,4 +264,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginTop: 100
     },
+    inactivo: {
+        opacity: 0.5,  // Cambia la opacidad para indicar que está inactivo
+        pointerEvents: 'none'  // Evita que responda a eventos de toque
+    }
 });

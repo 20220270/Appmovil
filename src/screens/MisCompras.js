@@ -1,4 +1,3 @@
-// MisCompras.js
 import React, { useState, useEffect } from 'react';
 import { StatusBar, StyleSheet, Text, View, SafeAreaView, TextInput, Alert, FlatList, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
@@ -10,24 +9,35 @@ import Footer from '../components/Footer/Footer';
 import CustomDrawer from '../../src/tabNavigator/CustomDrawer';
 
 export default function MisCompras({ navigation }) {
+    // Constante IP del servidor
     const ip = Constantes.IP;
+    // Estado para almacenar las compras
     const [datCompras, setDataCompras] = useState([]);
+    // Estado para controlar la visibilidad del drawer
     const [drawerVisible, setDrawerVisible] = useState(false);
+    // Estado para controlar el ID del detalle de compra en el modal
     const [idDetalleModal, setIdDetalleModal] = useState('');
+    // Estado para controlar la visibilidad del modal de valoración
     const [modalVisible, setModalVisible] = useState(false);
+    // Estado para almacenar la calificación
     const [calificacion, setCalificacion] = useState(0);
+    // Estado para almacenar el comentario
     const [comentario, setComentario] = useState('');
+    // Estado para almacenar el término de búsqueda
     const [searchTerm, setSearchTerm] = useState('');
 
+    // Función para mostrar el drawer
     const volverInicio = () => {
         setDrawerVisible(true);
     };
 
+    // Función para manejar la selección de una compra
     const handleCompra = (id) => {
         setModalVisible(true);
         setIdDetalleModal(id);
     };
 
+    // Función para obtener las compras del usuario
     const getCompras = async () => {
         try {
             const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/ordenes.php?action=myOrders`, {
@@ -45,6 +55,7 @@ export default function MisCompras({ navigation }) {
         }
     };
 
+    // Función para buscar compras del usuario
     const getComprasSearch = async () => {
         try {
             const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/ordenes.php?action=searchOrders&search=${encodeURIComponent(searchTerm)}`, {
@@ -62,6 +73,7 @@ export default function MisCompras({ navigation }) {
         }
     };
 
+    // Efecto para obtener las compras del usuario al cargar el componente
     useEffect(() => {
         if (searchTerm.trim() === '') {
             getCompras();
@@ -72,8 +84,10 @@ export default function MisCompras({ navigation }) {
 
     return (
         <View style={styles.container}>
+            {/* Barra de navegación gris */}
             <NavBarGris volverInicio={volverInicio} />
 
+            {/* Drawer personalizado */}
             <CustomDrawer
                 visible={drawerVisible}
                 onClose={() => setDrawerVisible(false)}
@@ -83,6 +97,7 @@ export default function MisCompras({ navigation }) {
             <SafeAreaView style={styles.containerFlat}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.text1}>Mis compras</Text>
+                    {/* Contenedor de búsqueda */}
                     <View style={styles.searchContainer}>
                         <FontAwesome name="search" size={20} color="gray" style={styles.searchIcon} />
                         <TextInput
@@ -93,6 +108,7 @@ export default function MisCompras({ navigation }) {
                         />
                     </View>
                 </View>
+                {/* Lista de compras */}
                 <FlatList
                     data={datCompras}
                     keyExtractor={(item) => item.id_detalle}
@@ -118,10 +134,11 @@ export default function MisCompras({ navigation }) {
                     }}
                     ListHeaderComponent={<></>}
                 />
+                {/* Pie de página */}
                 <Footer />
             </SafeAreaView>
 
-            {/* Agrega el ModalValoracion aquí */}
+            {/* Modal de valoración */}
             <ModalValoracion
                 visible={modalVisible}
                 cerrarModal={() => setModalVisible(false)}

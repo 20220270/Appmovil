@@ -55,30 +55,11 @@ export default function MisCompras({ navigation }) {
         }
     };
 
-    // Función para buscar compras del usuario
-    const getComprasSearch = async () => {
-        try {
-            const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/ordenes.php?action=searchOrders&search=${encodeURIComponent(searchTerm)}`, {
-                method: 'GET',
-            });
-
-            const data = await response.json();
-            if (data.status) {
-                setDataCompras(data.dataset);
-            } else {
-                Alert.alert('Error al cargar tus compras', data.error);
-            }
-        } catch (error) {
-            Alert.alert('Error', 'Ocurrió un error al buscar las compras');
-        }
-    };
 
     // Efecto para obtener las compras del usuario al cargar el componente
     useEffect(() => {
         if (searchTerm.trim() === '') {
             getCompras();
-        } else {
-            getComprasSearch();
         }
     }, [searchTerm]);
 
@@ -98,15 +79,7 @@ export default function MisCompras({ navigation }) {
                 <View style={styles.titleContainer}>
                     <Text style={styles.text1}>Mis compras</Text>
                     {/* Contenedor de búsqueda */}
-                    <View style={styles.searchContainer}>
-                        <FontAwesome name="search" size={20} color="gray" style={styles.searchIcon} />
-                        <TextInput
-                            style={styles.searchInput}
-                            placeholder="Buscar..."
-                            value={searchTerm}
-                            onChangeText={text => setSearchTerm(text)}
-                        />
-                    </View>
+                    
                 </View>
                 {/* Lista de compras */}
                 <FlatList

@@ -1,37 +1,43 @@
-// Productos.js
 import React, { useState, useEffect } from 'react';
-import { StatusBar, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList, Image, TextInput, ScrollView,  } from 'react-native';
+import { StatusBar, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList, Image, TextInput, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import ModalCompra from '../components/Modales/ModalCompra';
 import * as Constantes from '../utils/constantes';
 import CustomDrawer from '../../src/tabNavigator/CustomDrawer';
-import RNPickerSelect from 'react-native-picker-select';
 import Constants from 'expo-constants';
 import NavBarGris from '../components/topBarGris/navBarGris';
 import Footer from '../components/Footer/Footer';
 import ProductoCard from '../components/Productos/ProductoCard';
 
 export default function Productos({ navigation }) {
+    // Constante IP del servidor
     const ip = Constantes.IP;
+    // Estado para almacenar los productos
     const [dataProductos, setDataProductos] = useState([]);
+
     const [dataCategorias, setDataCategorias] = useState([]);
     const [selectedValue, setSelectedValue] = useState(null);
     const [cantidad, setCantidad] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
     const [drawerVisible, setDrawerVisible] = useState(false);
     const [idProductoModal, setIdProductoModal] = useState('');
+    // Estado para almacenar el nombre del producto en el modal de compra
     const [nombreProductoModal, setNombreProductoModal] = useState('');
-    const [currentIndex, setCurrentIndex] = useState(0); // Índice de la imagen actual
+    // Estado para almacenar el índice de la imagen actual del carrusel
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     const volverInicio = () => {
         setDrawerVisible(true);
     };
+
+    // Función para manejar la compra de un producto
     const handleCompra = (nombre, id) => {
         setModalVisible(true);
         setIdProductoModal(id);
         setNombreProductoModal(nombre);
     };
 
+    // Función para obtener los productos de una categoría
     const getProductos = async (idCategoriaSelect = 1) => {
         try {
             if (idCategoriaSelect <= 0) {
@@ -56,6 +62,7 @@ export default function Productos({ navigation }) {
         }
     };
 
+    // Función para obtener las categorías
     const getCategorias = async () => {
         try {
             const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/categorias.php?action=readAll`, {
@@ -73,18 +80,18 @@ export default function Productos({ navigation }) {
         }
     };
 
-
-
+    // Efecto para obtener los productos y categorías al cargar el componente
     useEffect(() => {
         getProductos();
         getCategorias();
     }, []);
 
+    // Función para navegar al carrito
     const irCarrito = () => {
         navigation.navigate('Carrito');
     };
 
-    // Crear un array de imágenes
+    // Crear un array de imágenes para el carrusel
     const imagenes = [
         require('../img/imagenvinoB.png'),
         require('../img/vinito.png'),
@@ -102,15 +109,17 @@ export default function Productos({ navigation }) {
 
     return (
         <View style={styles.container}>
-            {/* NavBar gris*/}
+            {/* NavBar gris */}
             <NavBarGris volverInicio={volverInicio} />
 
+            {/* Drawer personalizado */}
             <CustomDrawer
                 visible={drawerVisible}
                 onClose={() => setDrawerVisible(false)}
                 navigation={navigation}
             />
 
+            {/* Modal de compra */}
             <ModalCompra
                 visible={modalVisible}
                 cerrarModal={setModalVisible}
@@ -119,7 +128,6 @@ export default function Productos({ navigation }) {
                 cantidad={cantidad}
                 setCantidad={setCantidad}
             />
-
 
             <SafeAreaView style={styles.containerFlat}>
                 {/* Aquí reemplazamos ScrollView por FlatList */}
@@ -184,6 +192,7 @@ export default function Productos({ navigation }) {
         </View>
     );
 }
+
 const styles = StyleSheet.create({
     containerFlat: {
         flex: 1
@@ -226,7 +235,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 24,
-        fontWeight: 'bold',
+        fontWeight: 'bold',      // letra
         textAlign: 'center',
         marginVertical: 16,
         color: '#5C3D2E',

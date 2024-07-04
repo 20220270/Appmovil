@@ -1,19 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import { useEffect, useState } from 'react';
-import Input from '../components/Inputs/Input'
+import Input from '../components/Inputs/Input';
 import Buttons from '../components/Buttons/Button';
 import TopBar from '../components/topBar/topBar';
-import * as Constantes from '../utils/constantes'
+import * as Constantes from '../utils/constantes';
 import SignUp from './SignUp';
 
 export default function Sesion({ navigation }) {
   const ip = Constantes.IP;
 
-  const [isContra, setIsContra] = useState(true)
-  const [usuario, setUsuario] = useState('')
-  const [contrasenia, setContrasenia] = useState('')
+  // Estados para manejar la visibilidad de la contraseña, usuario y contraseña
+  const [isContra, setIsContra] = useState(true);
+  const [usuario, setUsuario] = useState('');
+  const [contrasenia, setContrasenia] = useState('');
 
+  // Función para validar si hay una sesión activa y, si es así, cerrarla
   const validarSesion = async () => {
     try {
       const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/cliente.php?action=getUser`, {
@@ -24,17 +26,18 @@ export default function Sesion({ navigation }) {
   
       if (data.status === 1) {
         cerrarSesion();
-        console.log("Se eliminó la sesión")
+        console.log("Se eliminó la sesión");
       } else {
-        console.log("No hay sesión activa")
-        return
+        console.log("No hay sesión activa");
+        return;
       }
     } catch (error) {
       console.error(error);
       Alert.alert('Error', 'Ocurrió un error al validar la sesión');
     }
-  }
+  };
 
+  // Función para cerrar la sesión
   const cerrarSesion = async () => {
     try {
       const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/cliente.php?action=logOut`, {
@@ -44,16 +47,17 @@ export default function Sesion({ navigation }) {
       const data = await response.json();
 
       if (data.status) {
-        console.log("Sesión Finalizada")
+        console.log("Sesión Finalizada");
       } else {
-        console.log('No se pudo eliminar la sesión')
+        console.log('No se pudo eliminar la sesión');
       }
     } catch (error) {
       console.error(error, "Error desde Catch");
       Alert.alert('Error', 'Ocurrió un error al iniciar sesión con bryancito');
     }
-  }
+  };
 
+  // Función para manejar el inicio de sesión
   const handlerLogin = async () => {
     try {
         const formData = new FormData();
@@ -70,7 +74,7 @@ export default function Sesion({ navigation }) {
         if (data.status) {
             setContrasenia('');
             setUsuario('');
-            navigation.navigate('Productos'); // Navega a la pantalla Home dentro del DrawerNavigator
+            navigation.navigate('Productos'); // Navega a la pantalla Home dentro del draw
         } else {
             console.log(data);
             Alert.alert('Error sesión', data.error);
@@ -79,14 +83,15 @@ export default function Sesion({ navigation }) {
         console.error(error, "Error desde Catch");
         Alert.alert('Error', 'Ocurrió un error al iniciar sesión');
     }
-};
+  };
 
-
+  // Navegar a la pantalla de registro
   const irRegistrar = async () => {
     navigation.navigate('SignUp');
   };
 
-  useEffect(() => { validarSesion() }, [])
+  // Validar sesión al cargar el componente
+  useEffect(() => { validarSesion() }, []);
 
   return (
     <View style={styles.container}>

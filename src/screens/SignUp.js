@@ -3,7 +3,7 @@ import { useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Constantes from '../utils/constantes'
 import Constants from 'expo-constants';
-//Import de componentes
+// Import de componentes
 import Input from '../components/Inputs/Input'
 import InputMultiline from '../components/Inputs/InputMultiline'
 import Buttons from '../components/Buttons/Button';
@@ -15,22 +15,24 @@ import TopBar from '../components/topBar/topBar';
 export default function SignUp({ navigation }) {
     const ip = Constantes.IP;
 
+    // Estados para los inputs y fecha
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
 
-    const [nombre, setNombre] = useState('')
-    const [apellido, setApellido] = useState('')
-    const [email, setEmail] = useState('')
-    const [direccion, setDireccion] = useState('')
-    const [dui, setDui] = useState('')
-    const [telefono, setTelefono] = useState('')
-    const [clave, setClave] = useState('')
-    const [confirmarClave, setConfirmarClave] = useState('')
+    const [nombre, setNombre] = useState('');
+    const [apellido, setApellido] = useState('');
+    const [email, setEmail] = useState('');
+    const [direccion, setDireccion] = useState('');
+    const [dui, setDui] = useState('');
+    const [telefono, setTelefono] = useState('');
+    const [clave, setClave] = useState('');
+    const [confirmarClave, setConfirmarClave] = useState('');
 
     const duiRegex = /^\d{8}-\d$/;
     const telefonoRegex = /^\d{4}-\d{4}$/;
 
+    // Manejo del cambio de fecha
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate;
         setShow(false);
@@ -43,6 +45,7 @@ export default function SignUp({ navigation }) {
         const fechaNueva = `${year}-${month}-${day}`;
     };
 
+    // Mostrar el modo de selección de fecha
     const showMode = (currentMode) => {
         setShow(true);
         setMode(currentMode);
@@ -52,10 +55,12 @@ export default function SignUp({ navigation }) {
         showMode('date');
     };
 
+    // Navegar a la pantalla de sesión (logout)
     const handleLogout = async () => {
         navigation.navigate('Sesion');
     };
 
+    // Manejar el registro de usuario de 
     const handleCreate = async () => {
         try {
             const fechaMinima = new Date();
@@ -161,7 +166,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     texto: {
-        color: '#322C2B', fontWeight: '900',
+        color: '#322C2B', fontWeight: '901',
         fontSize: 20,
         marginTop: 100
     },
@@ -181,11 +186,10 @@ const styles = StyleSheet.create({
     },
     contenedorFecha: {
         backgroundColor: '#A79277',
-        color: "#fff", fontWeight: '800',
+        color: "#fff", fontWeight: '801',
         width: 250,
         borderRadius: 5,
         padding: 5,
         marginVertical: 10
     }
 });
-

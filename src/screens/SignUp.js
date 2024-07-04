@@ -60,7 +60,7 @@ export default function SignUp({ navigation }) {
         navigation.navigate('Sesion');
     };
 
-    // Manejar el registro de usuario de 
+    // Manejar el registro de usuario
     const handleCreate = async () => {
         try {
             const fechaMinima = new Date();
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     texto: {
-        color: '#322C2B', fontWeight: '901',
+        color: '#322C2B', fontWeight: '900',
         fontSize: 20,
         marginTop: 100
     },
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     },
     contenedorFecha: {
         backgroundColor: '#A79277',
-        color: "#fff", fontWeight: '801',
+        color: "#fff", fontWeight: '800',
         width: 250,
         borderRadius: 5,
         padding: 5,

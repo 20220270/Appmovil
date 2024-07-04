@@ -11,27 +11,37 @@ import { FontAwesome } from '@expo/vector-icons';
 import CustomDrawer from '../../src/tabNavigator/CustomDrawer';
 
 const Carrito = ({ navigation }) => {
+  // Estado para almacenar los detalles del carrito
   const [dataDetalleCarrito, setDataDetalleCarrito] = useState([]);
+  // Estado para el ID del detalle a editar
   const [idDetalle, setIdDetalle] = useState(null);
+  // Estado para la cantidad del producto en el carrito
   const [cantidadProductoCarrito, setCantidadProductoCarrito] = useState(0);
+  // Estado para controlar la visibilidad del modal de edición de cantidad
   const [modalVisible, setModalVisible] = useState(false);
+  // Estado para controlar la visibilidad del drawer personalizado
   const [drawerVisible, setDrawerVisible] = useState(false);
+  // IP del servidor
   const ip = Constantes.IP;
 
+  // Función para navegar a la pantalla de productos
   const backProducts = () => {
     navigation.navigate('Productos');
   };
 
+  // Efecto para cargar los detalles del carrito cada vez que la pantalla gana foco
   useFocusEffect(
     React.useCallback(() => {
       getDetalleCarrito();
     }, [])
   );
 
+  // Función para mostrar el drawer
   const volverInicio = () => {
     setDrawerVisible(true);
   };
 
+  // Función para obtener los detalles del carrito desde el servidor
   const getDetalleCarrito = async () => {
     try {
       const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/ordenes.php?action=readDetail`, {
@@ -50,6 +60,7 @@ const Carrito = ({ navigation }) => {
     }
   };
 
+  // Función para finalizar el pedido
   const finalizarPedido = async () => {
     try {
       const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/ordenes.php?action=finishOrder`, {
@@ -68,12 +79,14 @@ const Carrito = ({ navigation }) => {
     }
   };
 
+  // Función para manejar la edición de un detalle del carrito
   const handleEditarDetalle = (idDetalle, cantidadDetalle) => {
     setModalVisible(true);
     setIdDetalle(idDetalle);
     setCantidadProductoCarrito(cantidadDetalle);
   };
 
+  // Función para renderizar cada item en la lista del carrito
   const renderItem = ({ item }) => (
     <CarritoCard
       item={item}
@@ -90,10 +103,11 @@ const Carrito = ({ navigation }) => {
     />
   );
 
+  // Función para calcular el total con descuento
   const calcularTotalConDescuento = () => {
     return dataDetalleCarrito.reduce((total, item) => {
       const subtotalConDescuento = (
-        parseFloat(item.precio_producto) * parseFloat(item.cantidad_producto) - 
+        parseFloat(item.precio_producto) * parseFloat(item.cantidad_producto) -
         (parseFloat(item.precio_producto) * parseFloat(item.cantidad_producto) * parseFloat(item.descuento_producto) / 100)
       );
       return total + subtotalConDescuento;
@@ -102,7 +116,7 @@ const Carrito = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-
+      {/* Barra superior con imagen y botón de menú */}
       <View style={styles.topBar}>
         <Image
           source={require('../img/logoe.png')}
@@ -113,12 +127,14 @@ const Carrito = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
+      {/* Drawer personalizado */}
       <CustomDrawer
         visible={drawerVisible}
         onClose={() => setDrawerVisible(false)}
         navigation={navigation}
       />
 
+      {/* Modal para editar la cantidad de productos */}
       <ModalEditarCantidad
         setModalVisible={setModalVisible}
         modalVisible={modalVisible}
@@ -131,6 +147,7 @@ const Carrito = ({ navigation }) => {
 
       <Text style={styles.title}>Carrito de Compras</Text>
 
+      {/* Lista de detalles del carrito d*/}
       {dataDetalleCarrito.length > 0 ? (
         <FlatList
           data={dataDetalleCarrito}
@@ -142,12 +159,14 @@ const Carrito = ({ navigation }) => {
         <Text style={styles.titleDetalle}>No hay detalles del carrito disponibles.</Text>
       )}
 
+      {/* Muestra el total con descuento si hay items en el carrito */}
       {dataDetalleCarrito.length > 0 && (
         <View style={styles.totalContainer}>
           <Text style={styles.totalText}>Total de la compra: ${calcularTotalConDescuento()}</Text>
         </View>
       )}
 
+      {/* Botones para finalizar pedido y regresar a productos */}
       <View style={styles.containerButtons}>
         {dataDetalleCarrito.length > 0 && (
           <Buttons
@@ -214,10 +233,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
-    marginBottom: 16,
+    marginBottom: 17,
   },
   totalText: {
-    fontSize: 18,
+    fontSize: 19,
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#333',

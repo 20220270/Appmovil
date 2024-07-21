@@ -5,14 +5,9 @@ import * as Constantes from '../../utils/constantes'
 
 
 
-const CarritoCard = ({item, cargarCategorias, 
-  modalVisible,
-  setModalVisible,
-  cantidadProductoCarrito,
-  setCantidadProductoCarrito, 
+const CarritoCard = ({item,
   accionBotonDetalle,
-  idDetalle,
-  setIdDetalle, getDetalleCarrito, updateDataDetalleCarrito}) => {
+ updateDataDetalleCarrito}) => {
 
     const ip = Constantes.IP;
 

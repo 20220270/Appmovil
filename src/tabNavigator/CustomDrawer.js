@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal, View, TouchableOpacity, StyleSheet, Text, Alert } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import * as Constantes from '../utils/constantes';
+import Buttons from '../components/Buttons/Button';
 
 const ip = Constantes.IP;
 
@@ -149,12 +150,12 @@ const styles = StyleSheet.create({
   },
   updateUserButton: {
     borderColor: 'black',
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 5,
     padding: 10,
   },
   updateUserText: {
-    fontSize: 14,
+    fontSize: 11,
   },
   cartButton: {
     flexDirection: 'row',

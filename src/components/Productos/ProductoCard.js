@@ -9,7 +9,7 @@ import * as Constantes from '../../utils/constantes';
 const ip = Constantes.IP;
 
 export default function ProductoCard({ ip, imagenProducto, idProducto, nombreProducto, descripcionProducto
-  , precioProducto, existenciasProducto, descuentoProducto, accionBotonProducto
+  , precioProducto, existenciasProducto, descuentoProducto, accionBotonProducto, accionBotonProducto2
 }) {
 
   return (
@@ -34,6 +34,12 @@ export default function ProductoCard({ ip, imagenProducto, idProducto, nombrePro
         onPress={accionBotonProducto}>
         <FontAwesome name="plus-circle" size={24} color="white" />
         <Text style={styles.cartButtonText}>Seleccionar Producto</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.cartButton}
+        onPress={accionBotonProducto2}>
+        <FontAwesome name="plus-circle" size={24} color="white" />
+        <Text style={styles.cartButtonText}>Ver valoraciones</Text>
       </TouchableOpacity>
     </View>
 

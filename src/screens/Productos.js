@@ -8,6 +8,7 @@ import Constants from 'expo-constants';
 import NavBarGris from '../components/topBarGris/navBarGris';
 import Footer from '../components/Footer/Footer';
 import ProductoCard from '../components/Productos/ProductoCard';
+import { useRoute } from '@react-navigation/native';
 
 export default function Productos({ navigation }) {
     // Constante IP del servidor
@@ -35,6 +36,12 @@ export default function Productos({ navigation }) {
         setModalVisible(true);
         setIdProductoModal(id);
         setNombreProductoModal(nombre);
+    };
+    
+    const handleValoracion = (idProducto) => {
+        navigation.navigate('CommentsProduct', {idProducto: idProducto})
+
+        console.log(idProducto)
     };
 
     // Función para obtener los productos de una categoría
@@ -85,11 +92,6 @@ export default function Productos({ navigation }) {
         getProductos();
         getCategorias();
     }, []);
-
-    // Función para navegar al carrito
-    const irCarrito = () => {
-        navigation.navigate('Carrito');
-    };
 
     // Crear un array de imágenes para el carrusel
     const imagenes = [
@@ -144,6 +146,7 @@ export default function Productos({ navigation }) {
                             existenciasProducto={item.existencias_producto}
                             descuentoProducto={item.descuento_producto}
                             accionBotonProducto={() => handleCompra(item.nombre_producto, item.id_producto)}
+                            accionBotonProducto2={() => handleValoracion(item.id_producto)}
                         />
                     )}
                     // Esta es la adición para permitir el desplazamiento

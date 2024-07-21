@@ -11,6 +11,7 @@ import UpdateUser from '../screens/UpdateUser';
 import Sesion from '../screens/Sesion'; // Importa la pantalla de Sesion
 import SignUp from '../screens/SignUp';
 import MisCompras from '../screens/MisCompras';
+import Comments from '../screens/Comments';
 
 const Drawer = createDrawerNavigator();
 
@@ -38,6 +39,9 @@ const DrawerNavigator = () => {
                     }else if (route.name === 'SignUp') {
                         iconName = focused ? 'person' : 'person-outline';
                     }
+                    else if (route.name === 'CommentsProduct') {
+                        iconName = focused ? 'person' : 'person-outline';
+                    }
                     return <Ionicons name={iconName} color={color} size={size} />;
                 },
             })}
@@ -55,6 +59,14 @@ const DrawerNavigator = () => {
                 component={Productos}
                 options={{ 
                     title: 'Productos',
+                    headerShown: false, // Oculta el título de la pantalla
+                }}
+            />
+            <Drawer.Screen
+                name="CommentsProduct"
+                component={Comments}
+                options={{ 
+                    title: 'CommentsProduct',
                     headerShown: false, // Oculta el título de la pantalla
                 }}
             />

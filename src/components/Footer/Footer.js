@@ -11,6 +11,7 @@ const Footer = () => {
                     source={require('../../img/equipod.png')}
                     style={styles.imagen3}
                 />
+                
                 <View style={styles.textContainer}>
                     <Text style={styles.text}>Equipo Desarrollador</Text>
                     <FlatList

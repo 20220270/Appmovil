@@ -85,6 +85,10 @@ export default function Sesion({ navigation }) {
     }
   };
 
+  const olvidarClave = async () => {
+    navigation.navigate('RecuperarClaveCorreo');
+  }
+
   // Navegar a la pantalla de registro
   const irRegistrar = async () => {
     navigation.navigate('SignUp');
@@ -115,6 +119,7 @@ export default function Sesion({ navigation }) {
         textoBoton='Iniciar Sesión'
         accionBoton={handlerLogin} />
       <TouchableOpacity onPress={irRegistrar}><Text style={styles.textRegistrar}>¿No tienes cuenta? Regístrate aquí</Text></TouchableOpacity>
+      <TouchableOpacity onPress={olvidarClave}><Text style={styles.textRegistrar}>¿Olvidaste tu contraseña?</Text></TouchableOpacity>
     </View>
   );
 }

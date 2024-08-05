@@ -12,6 +12,10 @@ import Sesion from '../screens/Sesion'; // Importa la pantalla de Sesion
 import SignUp from '../screens/SignUp';
 import MisCompras from '../screens/MisCompras';
 import Comments from '../screens/Comments';
+import RecuperarCorreo from '../screens/RecuperarClaveCorreo';
+import RecuperarClaveCodigo from '../screens/RecuperarClaveCodigo';
+import ActualizarClave from '../screens/ActualizarClave';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -110,6 +114,27 @@ const DrawerNavigator = () => {
                     title: 'Registrarse',
                     drawerItemStyle: { display: 'none' }, // Ocultar este ítem del drawer
                     headerShown: false, // Oculta el título de la pantalla
+                }}
+            />
+            <Drawer.Screen
+                name="RecuperarClaveCorreo"
+                component={RecuperarCorreo}
+                options={{ 
+                    title: 'Recuperar Contraseña', // Oculta el título de la pantalla
+                }}
+            />
+            <Drawer.Screen
+                name="RecuperarClaveCodigo"
+                component={RecuperarClaveCodigo}
+                options={{ 
+                    title: 'Verificar Código', // Oculta el título de la pantalla
+                }}
+            />
+            <Drawer.Screen
+                name="ActualizarClave"
+                component={ActualizarClave}
+                options={{ 
+                    title: 'Comentarios', // Oculta el título de la pantalla
                 }}
             />
         </Drawer.Navigator>

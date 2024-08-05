@@ -1,0 +1,94 @@
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
+import { useState, useEffect } from 'react';
+import Input from '../components/Inputs/Input';
+import Buttons from '../components/Buttons/Button';
+import TopBar from '../components/topBar/topBar';
+import * as Constantes from '../utils/constantes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export default function ActualizarClave({ navigation }) {
+    const ip = Constantes.IP;
+    const [claveNueva, setClaveNueva] = useState('');
+    const [confirmarClave, setConfirmarClave] = useState('');
+    const [correo, setCorreo] = useState(''); // Estado para almacenar el correo electrónico
+
+    useEffect(() => {
+        const obtenerDatos = async () => {
+          const storedEmail = await AsyncStorage.getItem('email');
+          if (storedEmail) {
+            setCorreo(storedEmail);
+          }
+        };
+        obtenerDatos();
+      }, []);
+
+    const Actualizar = async () => {
+        const FORM = new FormData();
+        FORM.append('claveCliente', claveNueva);
+        FORM.append('confirmarClave', confirmarClave);
+        FORM.append('IngreseCorreo', correo);
+        try {
+          const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/cliente.php?action=updateClave`, {
+            method: 'POST',
+            body: FORM
+          });
+    
+          const responseText = await response.text();
+          console.log('Response Text:', responseText);
+          const DATA = JSON.parse(responseText);
+          if (DATA.status) {
+            Alert.alert('Éxito', 'Se ha actualizado la contraseña');
+            navigation.navigate('Sesion');
+          } else {
+            Alert.alert('Error', `Error en la solicitud: ${DATA.error}`);
+          }
+        } catch (error) {
+          console.error('Error desde Catch', error);
+          Alert.alert('Error', `Ocurrió un error: ${error.message}`);
+        }
+      };
+
+    const Regresar = () => {
+        navigation.navigate('RecuperarClaveCodigo');
+      };
+
+    return (
+        <View style={styles.container}>
+          <TopBar />
+          <Image source={require('../img/logoe.png')} style={styles.image} />
+          <Text style={styles.texto}>Verificar Código</Text>
+          <TouchableOpacity><Text style={styles.textRegistrar}>Ingresa el código</Text></TouchableOpacity>
+          <Input placeHolder="Clave nueva" setValor={claveNueva} setTextChange={setClaveNueva} />
+          <Input placeHolder="Confirmar clave" setValor={confirmarClave} setTextChange={setConfirmarClave} />
+          <View>
+            <Buttons textoBoton='Aceptar' accionBoton={Actualizar} />
+            <Buttons textoBoton='Regresar' accionBoton={Regresar} />
+          </View>
+        </View>
+      );
+    }
+    
+    const styles = StyleSheet.create({
+      container: {
+        flex: 1,
+        backgroundColor: '#FFF',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      texto: {
+        color: '#322C2B', fontWeight: '900',
+        fontSize: 20
+      },
+      textRegistrar: {
+        color: '#322C2B', fontWeight: '700',
+        fontSize: 18,
+        marginTop: 10,
+        alignItems: 'center',
+      },
+      image: {
+        width: 200,
+        height: 75,
+        marginBottom: 19,
+        marginRight: 35
+      },
+    }); 

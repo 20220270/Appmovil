@@ -47,6 +47,7 @@ export default function RecuperarClaveCorreo({ navigation }) {
     }
   };
 
+  // Navegación
   const Regresar = () => {
     navigation.navigate('Sesion');
   };

@@ -21,6 +21,7 @@ export default function RecuperarClaveCodigo({ navigation }) {
     obtenerDatos();
   }, []);
 
+  // Función para que verifique que el código sea el mismo que se mandó al correo
   const verificarCodigo = async () => {
     try {
       const storedCode = await AsyncStorage.getItem('verificationCode');
@@ -36,6 +37,7 @@ export default function RecuperarClaveCodigo({ navigation }) {
     }
   };
 
+  //Función para reenviar el código
   const ReenviarCodigo = async () => {
     const FORM = new FormData();
     FORM.append('IngreseCorreo', correo);
@@ -66,10 +68,12 @@ export default function RecuperarClaveCodigo({ navigation }) {
     }
   };
 
+  // Navegación
   const Regresar = () => {
     navigation.navigate('RecuperarClaveCorreo');
   };
 
+  // Fucnión para generar un código aleatorio
   function generateRandomCode(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';

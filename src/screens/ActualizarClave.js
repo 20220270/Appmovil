@@ -13,7 +13,7 @@ export default function ActualizarClave({ navigation }) {
     const [correo, setCorreo] = useState(''); // Estado para almacenar el correo electrónico
 
     useEffect(() => {
-        const obtenerDatos = async () => {
+        const obtenerDatos = async () => { //Obtiene los datos del usuario
           const storedEmail = await AsyncStorage.getItem('email');
           if (storedEmail) {
             setCorreo(storedEmail);
@@ -22,13 +22,14 @@ export default function ActualizarClave({ navigation }) {
         obtenerDatos();
       }, []);
 
+      // Función para actualizar la contraseña
     const Actualizar = async () => {
         const FORM = new FormData();
         FORM.append('claveCliente', claveNueva);
         FORM.append('confirmarClave', confirmarClave);
         FORM.append('IngreseCorreo', correo);
         try {
-          const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/cliente.php?action=updateClave`, {
+          const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/cliente.php?action=updateClave`, { // Manda a llamar la acción que actualiza la clave
             method: 'POST',
             body: FORM
           });
@@ -47,7 +48,9 @@ export default function ActualizarClave({ navigation }) {
           Alert.alert('Error', `Ocurrió un error: ${error.message}`);
         }
       };
+      
 
+      // Navegación
     const Regresar = () => {
         navigation.navigate('RecuperarClaveCodigo');
       };

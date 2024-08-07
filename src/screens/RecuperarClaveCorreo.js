@@ -11,11 +11,12 @@ export default function RecuperarClaveCorreo({ navigation }) {
   const ip = Constantes.IP;
   const [correo, setCorreo] = useState('');
 
+  // Función para que envíe el código al correo correspondiente
   const enviarCodigo = async () => {
     const FORM = new FormData();
     FORM.append('IngreseCorreo', correo);
     try {
-      const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/cliente.php?action=checkCorreo`, {
+      const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/cliente.php?action=checkCorreo`, {  // Verifica el correo
         method: 'POST',
         body: FORM
       });
@@ -50,6 +51,7 @@ export default function RecuperarClaveCorreo({ navigation }) {
     navigation.navigate('Sesion');
   };
 
+  //Función para generar el código que se mandará al correo
   function generateRandomCode(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';

@@ -1,9 +1,9 @@
 ﻿# Appmovil
 
 Integrantes: 
-Ivan Daniel Slaguero Esperanza 
- Ricardo Daniel de Leon Cruz 
-Rebeca Marcela Hernández Amaya
+* Ivan Daniel Slaguero Esperanza
+* Ricardo Daniel de Leon Cruz
+* Rebeca Marcela Hernández Amaya
 
 El proyecto es la creación de una tienda en linea para una empresa de vinos, la empresa de vinos se llama OinosDeLaVid esta empresa fabrica de todo tipo de vinos, y la funcionalidad de el proyecto es poder agilizar el proceso de compra y venta de dichos productos. El sistema movil esta creado con una interfaz amigable al usuario para proporcionar una experiencia excelente y segura con funcionalidades que facilitan la gestion de los productos que dicha empresa vende. Entre la razones claves para el desarrollo del proyecto tenemos: 
 

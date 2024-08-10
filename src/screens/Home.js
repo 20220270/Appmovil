@@ -39,6 +39,7 @@ export default function Home({ navigation }) {
 
   // Función para obtener los datos del usuario desde el servidor
   const getUser = async () => {
+    
     try {
       const response = await fetch(`${ip}/OinosDeLaVid/api/services/public/cliente.php?action=getUser`, {
         method: 'GET'
@@ -48,6 +49,7 @@ export default function Home({ navigation }) {
         setNombre(data.username); // Establece el nombre del usuario en el estado
       } else {
         Alert.alert('Error', data.error);
+        
       }
     } catch (error) {
       Alert.alert('Error', 'Ocurrió un error al obtener el usuario');

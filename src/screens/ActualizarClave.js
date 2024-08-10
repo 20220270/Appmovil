@@ -59,10 +59,11 @@ export default function ActualizarClave({ navigation }) {
         <View style={styles.container}>
           <TopBar />
           <Image source={require('../img/logoe.png')} style={styles.image} />
-          <Text style={styles.texto}>Verificar Código</Text>
-          <TouchableOpacity><Text style={styles.textRegistrar}>Ingresa el código</Text></TouchableOpacity>
-          <Input placeHolder="Clave nueva" setValor={claveNueva} setTextChange={setClaveNueva} />
-          <Input placeHolder="Confirmar clave" setValor={confirmarClave} setTextChange={setConfirmarClave} />
+          <Text style={styles.texto}>Actualizar contraseña</Text>
+          
+          <Input placeHolder="Clave nueva" 
+          setValor={claveNueva} setTextChange={setClaveNueva} contra={true}/>
+          <Input placeHolder="Confirmar clave" setValor={confirmarClave} setTextChange={setConfirmarClave} contra={true}/>
           <View>
             <Buttons textoBoton='Aceptar' accionBoton={Actualizar} />
             <Buttons textoBoton='Regresar' accionBoton={Regresar} />
@@ -80,7 +81,8 @@ export default function ActualizarClave({ navigation }) {
       },
       texto: {
         color: '#322C2B', fontWeight: '900',
-        fontSize: 20
+        fontSize: 20,
+        marginBottom: 40
       },
       textRegistrar: {
         color: '#322C2B', fontWeight: '700',

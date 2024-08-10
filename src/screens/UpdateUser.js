@@ -171,46 +171,46 @@ export default function UpdateUser({ navigation }) {
             <ScrollView contentContainerStyle={styles.scrollViewStyle}>
                 <Text style={styles.texto}>Datos del usuario</Text>
                 <Input
-    placeHolder='Nombre Cliente'
-    setValor={nombre}
-    setTextChange={setNombre}
-    editable={!isModalVisible}
-    style={isModalVisible ? styles.inactivo : {}}
-/>
-<Input
-    placeHolder='Apellido Cliente'
-    setValor={apellido}
-    setTextChange={setApellido}
-    editable={!isModalVisible}
-    style={isModalVisible ? styles.inactivo : {}}
-/>
-<InputEmail
-    placeHolder='Email Cliente'
-    setValor={correo}
-    setTextChange={setCorreo}
-    editable={!isModalVisible}
-    style={isModalVisible ? styles.inactivo : {}}
-/>
-<InputMultiline
-    placeHolder='Dirección Cliente'
-    setValor={direccion}
-    valor={direccion}
-    setTextChange={setDireccion}
-    editable={!isModalVisible}
-    style={isModalVisible ? styles.inactivo : {}}
-/>
-<MaskedInputDui
-    dui={dui}
-    setDui={setDui}
-    editable={!isModalVisible}
-    style={isModalVisible ? styles.inactivo : {}}
-/>
-<MaskedInputTelefono
-    telefono={telefono}
-    setTelefono={setTelefono}
-    editable={!isModalVisible}
-    style={isModalVisible ? styles.inactivo : {}}
-/>
+                    placeHolder='Nombre Cliente'
+                    setValor={nombre}
+                    setTextChange={setNombre}
+                    editable={!isModalVisible}
+                    style={isModalVisible ? styles.inactivo : {}}
+                />
+                <Input
+                    placeHolder='Apellido Cliente'
+                    setValor={apellido}
+                    setTextChange={setApellido}
+                    editable={!isModalVisible}
+                    style={isModalVisible ? styles.inactivo : {}}
+                />
+                <InputEmail
+                    placeHolder='Email Cliente'
+                    setValor={correo}
+                    setTextChange={setCorreo}
+                    editable={!isModalVisible}
+                    style={isModalVisible ? styles.inactivo : {}}
+                />
+                <InputMultiline
+                    placeHolder='Dirección Cliente'
+                    setValor={direccion}
+                    valor={direccion}
+                    setTextChange={setDireccion}
+                    editable={!isModalVisible}
+                    style={isModalVisible ? styles.inactivo : {}}
+                />
+                <MaskedInputDui
+                    dui={dui}
+                    setDui={setDui}
+                    editable={!isModalVisible}
+                    style={isModalVisible ? styles.inactivo : {}}
+                />
+                <MaskedInputTelefono
+                    telefono={telefono}
+                    setTelefono={setTelefono}
+                    editable={!isModalVisible}
+                    style={isModalVisible ? styles.inactivo : {}}
+                />
 
 
                 <Buttons

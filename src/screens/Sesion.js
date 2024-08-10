@@ -74,7 +74,8 @@ export default function Sesion({ navigation }) {
         if (data.status) {
             setContrasenia('');
             setUsuario('');
-            navigation.navigate('Productos'); // Navega a la pantalla Home dentro del draw
+            
+            navigation.navigate('Home'); // Navega a la pantalla Home dentro del draw
         } else {
             console.log(data);
             Alert.alert('Error sesión', data.error);

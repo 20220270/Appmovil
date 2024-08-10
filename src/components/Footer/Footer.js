@@ -18,7 +18,7 @@ const Footer = () => {
                         data={[
                             'Iván Daniel Salguero Esperanza',
                             'Ricardo Daniel De León Cruz',
-                            'Edgar Enrique Sarco García'
+                            'Rebeca Marcela Hernández Amaya'
                         ]}
                         renderItem={({ item }) => (
                             <View style={styles.listItem}>
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     },
     textItem: {
         color: 'white',
+        fontSize: 12,
     },
     listItem: {
         flexDirection: 'row',

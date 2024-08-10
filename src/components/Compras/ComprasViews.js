@@ -1,9 +1,6 @@
 import { StatusBar, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; // Importamos el ícono
-import Constants from 'expo-constants';
 import * as Constantes from '../../utils/constantes';
-
-const ip = Constantes.IP;
 
 // Función para validar y convertir los valores a números
 const toNumber = (value) => {

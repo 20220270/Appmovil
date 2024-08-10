@@ -1,6 +1,5 @@
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import Constants from 'expo-constants';
 import * as Constantes from '../../utils/constantes';
 
 const ip = Constantes.IP;

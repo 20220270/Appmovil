@@ -1,6 +1,5 @@
 
-import { StatusBar, StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, FlatList, ScrollView, SafeAreaView, Image } from 'react-native';
-import { useState, useEffect } from 'react';
+import { StatusBar, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; // Importamos el ícono
 import Constants from 'expo-constants';
 import * as Constantes from '../../utils/constantes';

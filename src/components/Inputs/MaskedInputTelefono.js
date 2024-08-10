@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
 export default function MaskedInputTelefono({ telefono, setTelefono }) {

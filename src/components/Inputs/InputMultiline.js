@@ -1,5 +1,5 @@
 
-import { StyleSheet, Text, View,TextInput, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet,TextInput} from 'react-native';
 
 export default function InputMultiline({placeHolder, setValor, contra, valor}) {
 

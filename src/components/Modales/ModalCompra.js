@@ -1,5 +1,5 @@
-import React, { useState, useEffect} from 'react';
-import { View, Text, Modal, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
+import React from 'react';
+import { View, Text, Modal, StyleSheet, TextInput, Alert } from 'react-native';
 import Buttons from '../Buttons/Button';
 import * as Constantes from '../../utils/constantes'
 

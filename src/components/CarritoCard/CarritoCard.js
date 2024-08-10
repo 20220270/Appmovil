@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Text, TouchableOpacity, View, StyleSheet, FlatList, Alert } from 'react-native';
+import React from 'react';
+import { Text, TouchableOpacity, View, StyleSheet, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import * as Constantes from '../../utils/constantes'
 

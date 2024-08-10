@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList, Image, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList, Image, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import ModalCompra from '../components/Modales/ModalCompra';
 import * as Constantes from '../utils/constantes';

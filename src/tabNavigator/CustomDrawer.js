@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Modal, View, TouchableOpacity, StyleSheet, Text, Alert } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import * as Constantes from '../utils/constantes';
-import Buttons from '../components/Buttons/Button';
 
 const ip = Constantes.IP;
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar, StyleSheet, Text, View, SafeAreaView, Alert, FlatList } from 'react-native';
+import {  StyleSheet, Text, View, SafeAreaView, Alert, FlatList } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native'; // Importa useNavigation
 import * as Constantes from '../utils/constantes';
 import NavBarGris from '../components/topBarGris/navBarGris';

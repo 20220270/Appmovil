@@ -8,7 +8,6 @@ import Constants from 'expo-constants';
 import NavBarGris from '../components/topBarGris/navBarGris';
 import Footer from '../components/Footer/Footer';
 import ProductoCard from '../components/Productos/ProductoCard';
-import { useRoute } from '@react-navigation/native';
 
 export default function Productos({ navigation }) {
     // Constante IP del servidor

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar, StyleSheet, Text, View, SafeAreaView, TextInput, Alert, FlatList, Image } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { StyleSheet, Text, View, SafeAreaView, Alert, FlatList } from 'react-native';
 import ModalValoracion from '../components/Modales/ModalValoracion'; // Importa el ModalValoracion
 import * as Constantes from '../utils/constantes';
 import NavBarGris from '../components/topBarGris/navBarGris';

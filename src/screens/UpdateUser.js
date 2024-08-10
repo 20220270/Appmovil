@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Alert } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import NavBarGris from '../components/topBarGris/navBarGris';
 import CustomDrawer from '../../src/tabNavigator/CustomDrawer';

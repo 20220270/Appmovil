@@ -1,11 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
+
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import { useEffect, useState } from 'react';
 import Input from '../components/Inputs/Input';
 import Buttons from '../components/Buttons/Button';
 import TopBar from '../components/topBar/topBar';
 import * as Constantes from '../utils/constantes';
-import SignUp from './SignUp';
+
 
 export default function Sesion({ navigation }) {
   const ip = Constantes.IP;

@@ -18,10 +18,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/logoe.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ivansalguero.Appmovil"
     },
     "web": {
       "favicon": "./assets/logoe.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "968634c5-7470-4650-98c9-0b1c73e79d51"
+      }
     }
   }
 }

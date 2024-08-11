@@ -95,9 +95,9 @@ export default function Productos({ navigation }) {
     // Crear un array de imágenes para el carrusel
     const imagenes = [
         require('../img/imagenvinoB.png'),
-        require('../img/vinito.png'),
-        require('../img/vinoss.png')
+        require('../img/vinito.png')
     ];
+    
 
     // Funciones para manejar la navegación del carrusel
     const nextImage = () => {
